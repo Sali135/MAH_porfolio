@@ -1,0 +1,130 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ action }} un projet{% endblock %}
+{% block nav_projects %}active{% endblock %}
+{% block page_title %}{{ action }} un projet{% endblock %}
+{% block breadcrumb %}<a href="{% url 'dashboard:project_list' %}">Projets</a> › {{ action }}{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+  <div class="form-layout">
+    <form method="post" enctype="multipart/form-data" class="dash-form" id="project-form" novalidate>
+      {% csrf_token %}
+
+      <div class="form-main">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2>Infos principales</h2>
+          </div>
+          <div class="dash-card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">{{ form.title.label }} <span class="required">*</span></label>
+                {{ form.title }}
+                {% if form.title.errors %}<span class="form-error">{{ form.title.errors.0 }}</span>{% endif %}
+              </div>
+              <div class="form-group">
+                <label class="form-label">{{ form.slug.label }}</label>
+                {{ form.slug }}
+                <span class="form-help">Généré automatiquement depuis le titre.</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.description.label }} <span class="required">*</span></label>
+              {{ form.description }}
+              {% if form.description.errors %}<span class="form-error">{{ form.description.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.problem.label }}</label>
+              {{ form.problem }}
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.solution.label }}</label>
+              {{ form.solution }}
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.impact.label }}</label>
+              {{ form.impact }}
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card" style="margin-top:1.5rem;">
+          <div class="dash-card-header"><h2>Technologies</h2></div>
+          <div class="dash-card-body">
+            <div class="tech-checkboxes">{{ form.technologies }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-sidebar">
+        <div class="dash-card">
+          <div class="dash-card-header"><h2>Options</h2></div>
+          <div class="dash-card-body">
+            <div class="form-group">
+              <label class="form-label">{{ form.category.label }}</label>
+              {{ form.category }}
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.order.label }}</label>
+              {{ form.order }}
+            </div>
+            <div class="form-check-group">
+              {{ form.featured }}
+              <label for="{{ form.featured.id_for_label }}" class="form-label-inline">{{ form.featured.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card" style="margin-top:1rem;">
+          <div class="dash-card-header"><h2>Médias & Liens</h2></div>
+          <div class="dash-card-body">
+            {% if project.image %}
+            <div class="current-image">
+              <img src="{{ project.image.url }}" alt="Image actuelle" style="max-height:120px;border-radius:8px;margin-bottom:0.75rem;width:100%;object-fit:cover;" />
+              <span class="form-help">Image actuelle</span>
+            </div>
+            {% endif %}
+            <div class="form-group">
+              <label class="form-label">{{ form.image.label }}</label>
+              {{ form.image }}
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.github_url.label }}</label>
+              {{ form.github_url }}
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.demo_url.label }}</label>
+              {{ form.demo_url }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-dash btn-dash-primary btn-full">
+            <i data-lucide="save" class="icon-sm"></i> {{ action }} le projet
+          </button>
+          <a href="{% url 'dashboard:project_list' %}" class="btn-dash btn-dash-ghost btn-full">
+            <i data-lucide="x" class="icon-sm"></i> Annuler
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const titleInput = document.querySelector('[name="title"]');
+  const slugInput = document.querySelector('[name="slug"]');
+  if (titleInput && slugInput && !slugInput.value) {
+    titleInput.addEventListener('input', () => {
+      slugInput.value = titleInput.value
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+    });
+  }
+</script>
+{% endblock %}

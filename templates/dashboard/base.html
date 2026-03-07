@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Dashboard{% endblock %} — Portfolio Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}" />
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+  {% if user.is_authenticated %}
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Navigation admin">
+    <div class="sidebar-logo">
+      <span class="logo-bracket">&lt;</span>
+      <span class="logo-name">MH</span>
+      <span class="logo-bracket">/&gt;</span>
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Replier le menu">
+        <i data-lucide="chevron-left" class="icon-sm"></i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <span class="nav-group-label">Principal</span>
+        <a href="{% url 'dashboard:home' %}" class="nav-item {% block nav_home %}{% endblock %}">
+          <i data-lucide="layout-dashboard" class="nav-icon-svg"></i>
+          <span class="nav-label">Tableau de bord</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <span class="nav-group-label">Contenu</span>
+        <a href="{% url 'dashboard:project_list' %}" class="nav-item {% block nav_projects %}{% endblock %}">
+          <i data-lucide="monitor" class="nav-icon-svg"></i>
+          <span class="nav-label">Projets</span>
+          {% if total_projects %}<span class="nav-badge">{{ total_projects }}</span>{% endif %}
+        </a>
+        <a href="{% url 'dashboard:skill_list' %}" class="nav-item {% block nav_skills %}{% endblock %}">
+          <i data-lucide="zap" class="nav-icon-svg"></i>
+          <span class="nav-label">Compétences</span>
+        </a>
+        <a href="{% url 'dashboard:about_edit' %}" class="nav-item {% block nav_about %}{% endblock %}">
+          <i data-lucide="user-round" class="nav-icon-svg"></i>
+          <span class="nav-label">À propos</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <span class="nav-group-label">Communication</span>
+        <a href="{% url 'dashboard:message_list' %}" class="nav-item {% block nav_messages %}{% endblock %}">
+          <i data-lucide="mail" class="nav-icon-svg"></i>
+          <span class="nav-label">Messages</span>
+          {% if unread_count %}<span class="nav-badge unread">{{ unread_count }}</span>{% endif %}
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <span class="nav-group-label">Liens rapides</span>
+        <a href="/" target="_blank" class="nav-item">
+          <i data-lucide="globe" class="nav-icon-svg"></i>
+          <span class="nav-label">Voir le site</span>
+        </a>
+        <a href="/admin/" target="_blank" class="nav-item">
+          <i data-lucide="settings" class="nav-icon-svg"></i>
+          <span class="nav-label">Django Admin</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">{{ user.username|first|upper }}</div>
+      <div class="user-info">
+        <span class="user-name">{{ user.username }}</span>
+        <span class="user-role">{% if user.is_superuser %}Super Admin{% else %}Staff{% endif %}</span>
+      </div>
+      <a href="{% url 'dashboard:logout' %}" class="logout-btn" title="Déconnexion">
+        <i data-lucide="log-out" class="icon-sm"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN AREA ===== -->
+  <div class="dash-body" id="dash-body">
+    <!-- Top bar -->
+    <header class="dash-topbar">
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">
+        <i data-lucide="menu" class="icon-sm"></i>
+      </button>
+      <div class="topbar-title">
+        <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+        <span class="breadcrumb">{% block breadcrumb %}Accueil{% endblock %}</span>
+      </div>
+      <div class="topbar-actions">
+        <button id="theme-toggle-dash" class="theme-btn-dash" aria-label="Basculer le thème" title="Thème">
+          <i data-lucide="sun" class="theme-icon-sun icon-sm"></i>
+          <i data-lucide="moon" class="theme-icon-moon icon-sm"></i>
+        </button>
+        <a href="/" target="_blank" class="topbar-link">
+          <i data-lucide="external-link" class="icon-sm"></i>
+          Site public
+        </a>
+      </div>
+    </header>
+
+    <!-- Django messages/toasts -->
+    {% if messages %}
+    <div class="dash-toasts" role="alert" aria-live="polite">
+      {% for msg in messages %}
+      <div class="dash-toast dash-toast-{{ msg.tags }}">
+        {{ msg }}
+        <button onclick="this.parentElement.remove()" class="toast-close">
+          <i data-lucide="x" class="icon-sm"></i>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Content -->
+    <main class="dash-content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  {% else %}
+  {% block auth_content %}{% endblock %}
+  {% endif %}
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>lucide.createIcons();</script>
+  <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+
+</html>

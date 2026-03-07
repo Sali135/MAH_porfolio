@@ -1,0 +1,92 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}À propos{% endblock %}
+{% block nav_about %}active{% endblock %}
+{% block page_title %}À propos &amp; Parcours{% endblock %}
+{% block breadcrumb %}Contenu › À propos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2 class="page-title">Section À propos</h2>
+    <p class="page-subtitle">Gérez vos statistiques et votre parcours professionnel</p>
+  </div>
+  <a href="{% url 'dashboard:timeline_create' %}" class="dash-btn dash-btn-primary">
+    <i data-lucide="plus" class="icon-sm"></i> Ajouter une étape
+  </a>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1.4fr;gap:1.5rem;align-items:start;">
+
+  <!-- ─── Statistiques ─── -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <i data-lucide="bar-chart-2" class="icon-sm" style="color:var(--dash-accent)"></i>
+      <h3>Compteurs animés</h3>
+    </div>
+    <form method="post" action="" style="padding:1.25rem 1.5rem;">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group" style="margin-bottom:1.25rem;">
+        <label class="dash-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="form-error">{{ field.errors.0 }}</span>{% endif %}
+      </div>
+      {% endfor %}
+      <button type="submit" class="dash-btn dash-btn-primary" style="width:100%;">
+        <i data-lucide="save" class="icon-sm"></i> Enregistrer les stats
+      </button>
+    </form>
+  </div>
+
+  <!-- ─── Timeline ─── -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <i data-lucide="git-commit-horizontal" class="icon-sm" style="color:var(--dash-accent)"></i>
+      <h3>Parcours professionnel</h3>
+      <span class="nav-badge">{{ timeline_items|length }}</span>
+    </div>
+
+    {% if timeline_items %}
+    <table class="dash-table">
+      <thead>
+        <tr>
+          <th>Ordre</th>
+          <th>Période</th>
+          <th>Poste</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in timeline_items %}
+        <tr>
+          <td><span class="nav-badge">{{ item.order }}</span></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--dash-accent)">{{ item.period }}</td>
+          <td style="font-weight:600">{{ item.title }}</td>
+          <td style="color:var(--dash-text-muted);font-size:.85rem">{{ item.description|truncatechars:50 }}</td>
+          <td>
+            <div class="card-actions">
+              <a href="{% url 'dashboard:timeline_edit' item.pk %}" class="action-btn edit-btn" title="Modifier">
+                <i data-lucide="pencil" class="icon-sm"></i>
+              </a>
+              <a href="{% url 'dashboard:timeline_delete' item.pk %}" class="action-btn delete-btn" title="Supprimer">
+                <i data-lucide="trash-2" class="icon-sm"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state" style="padding:2rem;">
+      <i data-lucide="git-commit-horizontal" style="width:40px;height:40px;opacity:.3;display:block;margin:0 auto 1rem;"></i>
+      <p>Aucune étape du parcours.</p>
+      <a href="{% url 'dashboard:timeline_create' %}" class="dash-btn dash-btn-primary" style="margin-top:.75rem;">
+        <i data-lucide="plus" class="icon-sm"></i> Ajouter la première étape
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

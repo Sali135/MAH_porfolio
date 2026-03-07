@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Confirmer la suppression{% endblock %}
+{% block page_title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+  <div style="max-width:480px;margin:0 auto;">
+    <div class="dash-card">
+      <div class="dash-card-body" style="text-align:center;padding:2.5rem;">
+        <div class="delete-warning-icon">
+          <i data-lucide="alert-triangle"></i>
+        </div>
+        <h2 style="color:var(--dash-text);margin-bottom:0.75rem;">Supprimer ce {{ type }} ?</h2>
+        <p style="color:var(--dash-text-muted);margin-bottom:0.25rem;">
+          Vous êtes sur le point de supprimer :
+        </p>
+        <strong style="font-size:1.1rem;color:var(--dash-accent);">{{ object }}</strong>
+        <p style="color:var(--dash-text-secondary);font-size:0.88rem;margin-top:0.5rem;">
+          Cette action est irréversible.
+        </p>
+
+        <form method="post" style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          {% csrf_token %}
+          <button type="submit" class="btn-dash btn-dash-danger">
+            <i data-lucide="trash-2" class="icon-sm"></i> Oui, supprimer
+          </button>
+          <a href="{% url cancel_url %}" class="btn-dash btn-dash-ghost">
+            <i data-lucide="arrow-left" class="icon-sm"></i> Annuler
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

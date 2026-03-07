@@ -1,0 +1,106 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ action }} compétence{% endblock %}
+{% block nav_skills %}active{% endblock %}
+{% block page_title %}{{ action }} une compétence{% endblock %}
+{% block breadcrumb %}<a href="{% url 'dashboard:skill_list' %}">Compétences</a> › {{ action }}{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+  <div class="form-layout form-layout-narrow">
+    <form method="post" class="dash-form-simple" novalidate>
+      {% csrf_token %}
+
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <h2>{{ action }} une compétence</h2>
+          <!-- Live preview -->
+          <div class="skill-preview" id="skill-preview">
+            <i id="preview-icon" class="{{ form.icon.value }}" style="color:{{ form.color.value }};font-size:2rem;"></i>
+            <span id="preview-name">{{ form.name.value|default:"Nom" }}</span>
+          </div>
+        </div>
+        <div class="dash-card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">{{ form.name.label }} <span class="required">*</span></label>
+              {{ form.name }}
+              {% if form.name.errors %}<span class="form-error">{{ form.name.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.category.label }}</label>
+              {{ form.category }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">{{ form.proficiency.label }} <span class="required">*</span></label>
+            {{ form.proficiency }}
+            <div class="range-preview">
+              <div class="skill-level-bar" style="margin-top:0.5rem;">
+                <div class="skill-level-fill" id="proficiency-preview-bar"
+                     style="width:{{ form.proficiency.value|default:0 }}%;background:{{ form.color.value|default:'#3b82f6' }};transition:width 0.3s;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">{{ form.icon.label }}</label>
+              {{ form.icon }}
+              <span class="form-help">Exemple : <code>devicon-python-plain</code>. Voir <a href="https://devicon.dev" target="_blank" class="link-accent">devicon.dev ↗</a></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">{{ form.color.label }}</label>
+              <div class="color-group">
+                {{ form.color }}
+                <span class="color-hex-display" id="color-hex">{{ form.color.value|default:'#3b82f6' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">{{ form.order.label }}</label>
+            {{ form.order }}
+            <span class="form-help">Entier positif. 0 = premier affiché.</span>
+          </div>
+        </div>
+
+        <div class="form-actions" style="padding:1.5rem;">
+          <button type="submit" class="btn-dash btn-dash-primary">
+            <i data-lucide="save" class="icon-sm"></i> {{ action }}
+          </button>
+          <a href="{% url 'dashboard:skill_list' %}" class="btn-dash btn-dash-ghost">
+            <i data-lucide="arrow-left" class="icon-sm"></i> Annuler
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const nameInput = document.querySelector('[name="name"]');
+  const iconInput = document.querySelector('[name="icon"]');
+  const colorInput = document.querySelector('[name="color"]');
+  const profInput = document.querySelector('[name="proficiency"]');
+  const previewIcon = document.getElementById('preview-icon');
+  const previewName = document.getElementById('preview-name');
+  const colorHex = document.getElementById('color-hex');
+  const profBar = document.getElementById('proficiency-preview-bar');
+
+  nameInput?.addEventListener('input', () => previewName.textContent = nameInput.value || 'Nom');
+  iconInput?.addEventListener('input', () => { previewIcon.className = iconInput.value; });
+  colorInput?.addEventListener('input', () => {
+    const c = colorInput.value;
+    previewIcon.style.color = c;
+    if (profBar) profBar.style.background = c;
+    if (colorHex) colorHex.textContent = c;
+  });
+  profInput?.addEventListener('input', () => {
+    if (profBar) profBar.style.width = profInput.value + '%';
+  });
+</script>
+{% endblock %}

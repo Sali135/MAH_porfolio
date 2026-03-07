@@ -1,0 +1,85 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Compétences{% endblock %}
+{% block nav_skills %}active{% endblock %}
+{% block page_title %}Compétences{% endblock %}
+{% block breadcrumb %}Gestion des compétences{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+  <div class="dash-toolbar">
+    <form method="get" class="search-form">
+      <select name="category" class="dash-select">
+        <option value="">Toutes catégories</option>
+        {% for val, label in categories %}
+        <option value="{{ val }}" {% if category == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn-dash btn-dash-ghost">
+        <i data-lucide="filter" class="icon-sm"></i> Filtrer
+      </button>
+    </form>
+    <a href="{% url 'dashboard:skill_create' %}" class="btn-dash btn-dash-primary">
+      <i data-lucide="plus" class="icon-sm"></i> Nouvelle compétence
+    </a>
+  </div>
+
+  <div class="dash-card">
+    <div class="dash-table-wrapper">
+      <table class="dash-table">
+        <thead>
+          <tr>
+            <th>Compétence</th>
+            <th>Catégorie</th>
+            <th>Niveau</th>
+            <th>Ordre</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for skill in skills %}
+          <tr>
+            <td>
+              <div class="skill-row">
+                <i class="{{ skill.icon }}" style="color:{{ skill.color }};font-size:1.4rem;" title="{{ skill.name }}"></i>
+                <div>
+                  <strong>{{ skill.name }}</strong>
+                  <div class="table-sub" style="color:{{ skill.color }};">{{ skill.color }}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="cat-pill cat-{{ skill.category }}">{{ skill.get_category_display }}</span></td>
+            <td>
+              <div class="skill-level-wrapper">
+                <div class="skill-level-bar">
+                  <div class="skill-level-fill" style="width:{{ skill.proficiency }}%;background:{{ skill.color }};"></div>
+                </div>
+                <span class="skill-level-num">{{ skill.proficiency }}%</span>
+              </div>
+            </td>
+            <td>
+              <span class="order-badge">{{ skill.order }}</span>
+            </td>
+            <td>
+              <div class="table-actions">
+                <a href="{% url 'dashboard:skill_edit' skill.pk %}" class="btn-dash btn-dash-sm btn-dash-ghost" title="Modifier">
+                  <i data-lucide="pencil" class="icon-sm"></i> Modifier
+                </a>
+                <a href="{% url 'dashboard:skill_delete' skill.pk %}" class="btn-dash btn-dash-sm btn-dash-danger" title="Supprimer">
+                  <i data-lucide="trash-2" class="icon-sm"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="no-data">
+              Aucune compétence. <a href="{% url 'dashboard:skill_create' %}">Créer la première →</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

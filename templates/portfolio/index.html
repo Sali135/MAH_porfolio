@@ -1,0 +1,449 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Mahamadou Salissou — Développeur Python/Django | Yaoundé, Cameroun{% endblock %}
+
+{% block content %}
+
+<!-- ================================================================
+     SECTION 1 : HERO
+     ================================================================ -->
+<section id="hero" class="hero-section" aria-label="Introduction">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+
+  <div class="hero-container">
+    <div class="hero-content fade-in">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Disponible pour missions freelance
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-greeting">Bonjour, je suis</span>
+        <span class="hero-name">Mahamadou Salissou</span>
+        <span class="hero-role">
+          <span class="typing-text" id="typing-text">Développeur Python/Django</span>
+          <span class="typing-cursor">|</span>
+        </span>
+      </h1>
+
+      <p class="hero-desc">
+        Je crée des <strong>applications web scalables</strong> et des <strong>APIs robustes</strong>
+        avec Django,SQLite. Basé à Yaoundé, Cameroun.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">
+          Voir mes projets
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="#contact" class="btn btn-ghost">Me contacter</a>
+      </div>
+
+      <div class="hero-tech-stack">
+        <span class="tech-label">Stack :</span>
+        <div class="tech-icons">
+          <i class="devicon-python-plain" title="Python" style="color:#3776ab"></i>
+          <i class="devicon-django-plain" title="Django" style="color:#092e20"></i>
+          <i class="devicon-postgresql-plain" title="PostgreSQL" style="color:#336791"></i>
+          <i class="devicon-docker-plain" title="Docker" style="color:#2496ed"></i>
+          <i class="devicon-flutter-plain" title="Flutter" style="color:#02569b"></i>
+          <i class="devicon-git-plain" title="Git" style="color:#f05032"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-in-right">
+      <div class="avatar-wrapper">
+        <div class="avatar-photo">
+          <img src="{% static 'portfolio/img/profile.jpg' %}" alt="Mahamadou Salissou — Développeur Python/Django"
+            class="profile-photo" loading="eager" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator" aria-hidden="true">
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+    <span>Défiler</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 2 : ABOUT
+     ================================================================ -->
+<section id="about" class="section about-section" aria-label="À propos">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">À propos de moi</h2>
+      <p class="section-subtitle">Passionné de développement web</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          Développeur <strong>Python/Django</strong> passionné basé à <strong>Yaoundé, Cameroun </strong>.
+          je conçois des applications web robustes, des APIs RESTful scalables
+          et des plateformes éducatives qui font une vraie différence.
+        </p>
+        <p>
+          Mon expertise couvre l'ensemble du cycle de développement : de l'architecture backend
+          (Django,SQLite) au déploiement (Docker)
+        </p>
+
+
+        <div class="about-highlights">
+          <div class="highlight-item">
+            <span class="highlight-icon">🎯</span>
+            <div>
+              <strong>Basé à Yaoundé</strong>
+              <span>Disponible </span>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🌍</span>
+            <div>
+              <strong>Langues</strong>
+              <span>Français · Anglais</span>
+            </div>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">⚡</span>
+            <div>
+              <strong>Spécialités</strong>
+              <span>Django · APIs</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn btn-primary" style="margin-top:2rem;">
+          Travaillons ensemble →
+        </a>
+      </div>
+
+      <!-- Stats counters -->
+      <div class="about-stats reveal-right">
+        <div class="stats-grid">
+          <div class="stat-card glass-card" data-count="{{ stats.years_exp }}">
+            <span class="stat-number counter" data-target="{{ stats.years_exp }}"></span>
+            <span class="stat-suffix">ans</span>
+            <span class="stat-label">d'expérience</span>
+          </div>
+          <div class="stat-card glass-card" data-count="{{ stats.projects_done }}">
+            <span class="stat-number counter" data-target="{{ stats.projects_done }}">0</span>
+            <span class="stat-suffix">+</span>
+            <span class="stat-label">projets livrés</span>
+          </div>
+          <div class="stat-card glass-card" data-count="{{ stats.clients }}">
+            <span class="stat-number counter" data-target="{{ stats.clients }}">0</span>
+            <span class="stat-suffix">+</span>
+            <span class="stat-label">clients satisfaits</span>
+          </div>
+          <div class="stat-card glass-card" data-count="{{ stats.coffee }}">
+            <span class="stat-number counter" data-target="{{ stats.coffee }}">0</span>
+            <span class="stat-suffix">+</span>
+            <span class="stat-label">cafés ☕</span>
+          </div>
+        </div>
+
+        <!-- Timeline expérience -->
+        <div class="timeline">
+          <h3 class="timeline-title">Parcours</h3>
+          {% for item in timeline_items %}
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-period">{{ item.period }}</span>
+              <strong>{{ item.title }}</strong>
+              <p>{{ item.description }}</p>
+            </div>
+          </div>
+          {% empty %}
+          <p style="color:var(--text-muted);font-size:.9rem;">Aucun parcours enregistré.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 3 : SKILLS
+     ================================================================ -->
+<section id="skills" class="section skills-section" aria-label="Compétences">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">Mes compétences</h2>
+      <p class="section-subtitle">Technologies que je maîtrise au quotidien</p>
+    </div>
+
+    <!-- Skill category filters -->
+    <div class="skills-filters reveal" role="tablist" aria-label="Filtres compétences">
+      <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">Toutes</button>
+      <button class="filter-btn" data-filter="backend" role="tab" aria-selected="false">Backend</button>
+      <button class="filter-btn" data-filter="frontend" role="tab" aria-selected="false">Frontend</button>
+      <button class="filter-btn" data-filter="database" role="tab" aria-selected="false">Database</button>
+      <button class="filter-btn" data-filter="devops" role="tab" aria-selected="false">DevOps</button>
+      <button class="filter-btn" data-filter="mobile" role="tab" aria-selected="false">Mobile</button>
+    </div>
+
+    <!-- Skills grid with radial progress bars -->
+    <div class="skills-grid" id="skills-grid" role="tabpanel">
+      {% for skill in skills %}
+      <div class="skill-card glass-card reveal" data-category="{{ skill.category }}">
+        <div class="skill-radial" data-value="{{ skill.proficiency }}" data-color="{{ skill.color }}">
+          <svg class="skill-svg" viewBox="0 0 80 80" aria-hidden="true">
+            <circle class="skill-bg-circle" cx="40" cy="40" r="32" />
+            <circle class="skill-progress-circle" cx="40" cy="40" r="32" stroke="{{ skill.color }}"
+              style="--skill-percent: {{ skill.proficiency }}" />
+          </svg>
+          <div class="skill-icon-center">
+            <i class="{{ skill.icon }}" style="color: {{ skill.color }}; font-size: 1.6rem;"
+              title="{{ skill.name }}"></i>
+          </div>
+        </div>
+        <div class="skill-info">
+          <h3 class="skill-name">{{ skill.name }}</h3>
+          <div class="skill-bar-wrapper" title="{{ skill.proficiency }}% de maîtrise">
+            <div class="skill-bar">
+              <div class="skill-bar-fill"
+                style="--skill-width: {{ skill.proficiency }}%; background: {{ skill.color }};"></div>
+            </div>
+            <span class="skill-percent">{{ skill.proficiency }}%</span>
+          </div>
+          <span class="skill-category-badge cat-{{ skill.category }}">{{ skill.get_category_display }}</span>
+        </div>
+      </div>
+      {% empty %}
+      <!-- Fallback si pas de données -->
+      {% for name, percent, icon, color, cat in default_skills %}
+      <div class="skill-card glass-card reveal" data-category="{{ cat }}">
+        <div class="skill-name">{{ name }}</div>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 4 : PROJETS
+     ================================================================ -->
+<section id="projects" class="section projects-section" aria-label="Projets">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">Mes Projets</h2>
+      <p class="section-subtitle">Applications construites avec passion et précision</p>
+    </div>
+
+    <!-- Project filters -->
+    <div class="projects-filters reveal" role="tablist" aria-label="Filtres projets">
+      <button class="filter-btn active" data-filter="all" role="tab">Tous</button>
+      <button class="filter-btn" data-filter="fullstack" role="tab">Fullstack</button>
+      <button class="filter-btn" data-filter="backend" role="tab">Backend</button>
+      <button class="filter-btn" data-filter="api" role="tab">API</button>
+      <button class="filter-btn" data-filter="mobile" role="tab">Mobile</button>
+    </div>
+
+    <!-- Projects grid -->
+    <div class="projects-grid" id="projects-grid">
+      {% for project in all_projects %}
+      <article class="project-card glass-card reveal" data-category="{{ project.category }}"
+        data-project-id="{{ project.pk }}">
+        <div class="project-image-wrapper">
+          {% if project.image %}
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-image" loading="lazy" />
+          {% else %}
+          <div class="project-image-placeholder" style="background: linear-gradient(135deg, #1e40af22, #3b82f622);">
+            <span class="project-placeholder-icon">
+              {% if project.category == 'backend' %}⚙️
+              {% elif project.category == 'api' %}🔌
+              {% elif project.category == 'mobile' %}📱
+              {% else %}🖥️{% endif %}
+            </span>
+          </div>
+          {% endif %}
+          {% if project.featured %}
+          <span class="project-badge featured-badge">⭐ Vedette</span>
+          {% endif %}
+          <span class="project-badge category-badge cat-{{ project.category }}">{{ project.get_category_display
+            }}</span>
+        </div>
+
+        <div class="project-body">
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-desc">{{ project.description|truncatewords:20 }}</p>
+
+          <!-- Technologies -->
+          <div class="project-tech-tags">
+            {% for tech in project.technologies.all|slice:":4" %}
+            <span class="tech-tag" style="border-color: {{ tech.color }}; color: {{ tech.color }};">
+              {{ tech.name }}
+            </span>
+            {% endfor %}
+          </div>
+
+          <div class="project-links">
+            <button class="btn btn-sm btn-primary project-modal-btn" data-project-id="{{ project.pk }}"
+              data-title="{{ project.title }}" data-desc="{{ project.description }}"
+              data-problem="{{ project.problem }}" data-solution="{{ project.solution }}"
+              data-impact="{{ project.impact }}" data-github="{{ project.github_url }}"
+              data-demo="{{ project.demo_url }}" data-category="{{ project.get_category_display }}"
+              aria-label="Voir les détails de {{ project.title }}">
+              Voir détails
+            </button>
+            {% if project.github_url %}
+            <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-ghost"
+              aria-label="Code source de {{ project.title }}">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>
+              GitHub
+            </a>
+            {% endif %}
+            {% if project.demo_url %}
+            <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-accent"
+              aria-label="Démo de {{ project.title }}">
+              🚀 Demo
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% empty %}
+      <p class="no-projects">Aucun projet disponible pour l'instant. <a href="/admin/portfolio/project/add/">Ajoutez-en
+          un via l'admin.</a></p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 5 : CONTACT
+     ================================================================ -->
+<section id="contact" class="section contact-section" aria-label="Contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">Travaillons ensemble</h2>
+      <p class="section-subtitle">Un projet ? Une question ? Écrivez-moi !</p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Info contact -->
+      <div class="contact-info reveal">
+        <div class="contact-item glass-card">
+          <span class="contact-icon">📧</span>
+          <div>
+            <strong>Email</strong>
+            <a href="mailto:moihedabdoul@gmail.com">moihedabdoul@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item glass-card">
+          <span class="contact-icon">📍</span>
+          <div>
+            <strong>Localisation</strong>
+            <span>Yaoundé, Cameroun 🇨🇲</span>
+          </div>
+        </div>
+        <div class="contact-item glass-card">
+          <span class="contact-icon">💼</span>
+          <div>
+            <strong>Disponibilité</strong>
+            <span class="availability-badge">✅ Disponible</span>
+          </div>
+        </div>
+
+        <!-- Social links -->
+        <div class="contact-socials">
+          <a href="https://github.com/Sali135?tab=repositories" target="_blank" rel="noopener noreferrer"
+            class="social-card glass-card" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            <span>GitHub</span>
+          </a>
+          <a href="https://linkedin.com/in/mahamadou-salissou" target="_blank" rel="noopener noreferrer"
+            class="social-card glass-card" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://wa.me/237691135843" target="_blank" rel="noopener noreferrer" class="social-card glass-card"
+            aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Formulaire contact -->
+      <div class="contact-form-wrapper reveal-right">
+        <form method="post" action="#contact" class="contact-form glass-card" id="contact-form" novalidate>
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label for="contact-name" class="form-label">
+              Nom complet <span class="required">*</span>
+            </label>
+            {{ contact_form.name }}
+            {% if contact_form.name.errors %}
+            <span class="form-error">{{ contact_form.name.errors.0 }}</span>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email" class="form-label">
+              Email <span class="required">*</span>
+            </label>
+            {{ contact_form.email }}
+            {% if contact_form.email.errors %}
+            <span class="form-error">{{ contact_form.email.errors.0 }}</span>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="contact-subject" class="form-label">Sujet</label>
+            {{ contact_form.subject }}
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message" class="form-label">
+              Message <span class="required">*</span>
+            </label>
+            {{ contact_form.message }}
+            {% if contact_form.message.errors %}
+            <span class="form-error">{{ contact_form.message.errors.0 }}</span>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
+            <span class="btn-text">Envoyer le message 🚀</span>
+            <span class="btn-loading" hidden>
+              <span class="spinner"></span>
+              Envoi en cours...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

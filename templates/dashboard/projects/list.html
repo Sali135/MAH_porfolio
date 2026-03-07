@@ -1,0 +1,95 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Projets{% endblock %}
+{% block nav_projects %}active{% endblock %}
+{% block page_title %}Projets{% endblock %}
+{% block breadcrumb %}Gestion des projets{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+  <div class="dash-toolbar">
+    <form method="get" class="search-form">
+      <input type="text" name="q" value="{{ search }}" placeholder="Rechercher un projet..." class="dash-search" />
+      <select name="category" class="dash-select">
+        <option value="">Toutes catégories</option>
+        {% for val, label in categories %}
+        <option value="{{ val }}" {% if category == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn-dash btn-dash-ghost">
+        <i data-lucide="search" class="icon-sm"></i> Filtrer
+      </button>
+    </form>
+    <a href="{% url 'dashboard:project_create' %}" class="btn-dash btn-dash-primary">
+      <i data-lucide="plus" class="icon-sm"></i> Nouveau projet
+    </a>
+  </div>
+
+  <div class="projects-admin-grid">
+    {% for project in projects %}
+    <div class="project-admin-card">
+      <div class="project-admin-image">
+        {% if project.image %}
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" loading="lazy" />
+        {% else %}
+        <div class="project-no-img">
+          {% if project.category == 'mobile' %}
+            <i data-lucide="smartphone" class="placeholder-icon"></i>
+          {% elif project.category == 'api' %}
+            <i data-lucide="plug" class="placeholder-icon"></i>
+          {% else %}
+            <i data-lucide="monitor" class="placeholder-icon"></i>
+          {% endif %}
+        </div>
+        {% endif %}
+        <div class="project-admin-badges">
+          <span class="cat-pill cat-{{ project.category }}">{{ project.get_category_display }}</span>
+          {% if project.featured %}<span class="cat-pill featured-pill">Vedette</span>{% endif %}
+        </div>
+      </div>
+
+      <div class="project-admin-body">
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.description|truncatewords:15 }}</p>
+        <div class="project-admin-tech">
+          {% for tech in project.technologies.all|slice:":4" %}
+          <span class="tech-mini-tag" style="border-color:{{ tech.color }};color:{{ tech.color }};">{{ tech.name }}</span>
+          {% endfor %}
+        </div>
+        <div class="project-admin-links">
+          {% if project.github_url %}
+          <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="ext-link">GitHub ↗</a>
+          {% endif %}
+          {% if project.demo_url %}
+          <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer" class="ext-link ext-link-green">Demo ↗</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="project-admin-actions">
+        <button class="toggle-featured-btn {% if project.featured %}is-featured{% endif %}"
+                data-project-id="{{ project.pk }}"
+                title="{% if project.featured %}Retirer vedette{% else %}Mettre en vedette{% endif %}">
+          <i data-lucide="star" class="icon-sm"></i>
+          {% if project.featured %}Vedette{% else %}Mettre en vedette{% endif %}
+        </button>
+        <a href="{% url 'dashboard:project_edit' project.pk %}" class="btn-dash btn-dash-ghost btn-dash-sm">
+          <i data-lucide="pencil" class="icon-sm"></i> Modifier
+        </a>
+        <a href="{% url 'dashboard:project_delete' project.pk %}" class="btn-dash btn-dash-danger btn-dash-sm">
+          <i data-lucide="trash-2" class="icon-sm"></i> Supprimer
+        </a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <i data-lucide="monitor" class="empty-icon-svg"></i>
+      <h3>Aucun projet</h3>
+      <p>Commencez par créer votre premier projet.</p>
+      <a href="{% url 'dashboard:project_create' %}" class="btn-dash btn-dash-primary">
+        <i data-lucide="plus" class="icon-sm"></i> Créer un projet
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

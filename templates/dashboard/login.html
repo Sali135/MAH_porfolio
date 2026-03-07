@@ -1,0 +1,51 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Connexion{% endblock %}
+{% block auth_content %}
+<div class="login-page">
+  <div class="login-orb login-orb-1"></div>
+  <div class="login-orb login-orb-2"></div>
+
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">
+        <span class="logo-bracket">&lt;</span>
+        <span class="logo-name">Admin</span>
+        <span class="logo-bracket">/&gt;</span>
+      </div>
+      <h1>Espace Administrateur</h1>
+      <p>Connectez-vous pour gérer votre portfolio</p>
+    </div>
+
+    {% if messages %}
+    <div class="login-messages">
+      {% for msg in messages %}
+      <div class="login-error">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="login-form" novalidate>
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="login-username" class="form-label">Nom d'utilisateur</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+        <span class="form-error">{{ form.username.errors.0 }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="login-password" class="form-label">Mot de passe</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+        <span class="form-error">{{ form.password.errors.0 }}</span>
+        {% endif %}
+      </div>
+      <button type="submit" class="btn-login">
+        Se connecter →
+      </button>
+    </form>
+
+    <a href="/" class="login-back">← Retour au portfolio public</a>
+  </div>
+</div>
+{% endblock %}

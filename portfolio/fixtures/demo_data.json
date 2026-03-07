@@ -1,0 +1,242 @@
+[
+  {
+    "model": "portfolio.skill",
+    "pk": 1,
+    "fields": {
+      "name": "Python",
+      "category": "backend",
+      "proficiency": 92,
+      "icon": "devicon-python-plain",
+      "color": "#3776ab",
+      "order": 1
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 2,
+    "fields": {
+      "name": "Django",
+      "category": "backend",
+      "proficiency": 90,
+      "icon": "devicon-django-plain",
+      "color": "#092e20",
+      "order": 2
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 3,
+    "fields": {
+      "name": "Django REST Framework",
+      "category": "backend",
+      "proficiency": 85,
+      "icon": "devicon-djangorest-plain",
+      "color": "#ff1709",
+      "order": 3
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 4,
+    "fields": {
+      "name": "PostgreSQL",
+      "category": "database",
+      "proficiency": 82,
+      "icon": "devicon-postgresql-plain",
+      "color": "#336791",
+      "order": 4
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 5,
+    "fields": {
+      "name": "Docker",
+      "category": "devops",
+      "proficiency": 75,
+      "icon": "devicon-docker-plain",
+      "color": "#2496ed",
+      "order": 5
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 6,
+    "fields": {
+      "name": "Flutter",
+      "category": "mobile",
+      "proficiency": 70,
+      "icon": "devicon-flutter-plain",
+      "color": "#02569b",
+      "order": 6
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 7,
+    "fields": {
+      "name": "JavaScript",
+      "category": "frontend",
+      "proficiency": 78,
+      "icon": "devicon-javascript-plain",
+      "color": "#f7df1e",
+      "order": 7
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 8,
+    "fields": {
+      "name": "TailwindCSS",
+      "category": "frontend",
+      "proficiency": 80,
+      "icon": "devicon-tailwindcss-plain",
+      "color": "#06b6d4",
+      "order": 8
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 9,
+    "fields": {
+      "name": "Git & GitHub",
+      "category": "devops",
+      "proficiency": 88,
+      "icon": "devicon-git-plain",
+      "color": "#f05032",
+      "order": 9
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 10,
+    "fields": {
+      "name": "SQLite",
+      "category": "database",
+      "proficiency": 85,
+      "icon": "devicon-sqlite-plain",
+      "color": "#003b57",
+      "order": 10
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 1,
+    "fields": {
+      "title": "Plateforme d'apprentissage du Coran",
+      "slug": "plateforme-quran",
+      "description": "Application web complète pour l'apprentissage du Coran avec suivi de progression, récitation audio et quiz interactifs.",
+      "problem": "Les apprenants manquaient d'outils numériques structurés pour apprendre le Coran avec suivi de progression personnalisé.",
+      "solution": "Développement d'une plateforme Django avec système de suivi, audio streaming, et tableaux de bord personnalisés pour chaque apprenant.",
+      "impact": "200+ utilisateurs actifs, taux de complétion amélioré de 60%, disponible en 3 langues.",
+      "image": "",
+      "category": "fullstack",
+      "github_url": "https://github.com/tonpseudo/quran-platform",
+      "demo_url": "",
+      "featured": true,
+      "order": 1,
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 2,
+    "fields": {
+      "title": "CRM Chatwoot Local",
+      "slug": "chatwoot-crm-local",
+      "description": "Déploiement et personnalisation locale de Chatwoot pour une entreprise camerounaise avec intégration WhatsApp Business API.",
+      "problem": "Une PME locale avait besoin d'un système CRM abordable avec support multicanal (WhatsApp, email, chat).",
+      "solution": "Déploiement Chatwoot self-hosted avec Docker, personnalisation de l'interface, et intégration WhatsApp Business API.",
+      "impact": "Réduction de 40% du temps de réponse client, centralisation de 3 canaux de communication.",
+      "image": "",
+      "category": "fullstack",
+      "github_url": "",
+      "demo_url": "",
+      "featured": true,
+      "order": 2,
+      "created_at": "2024-03-10T10:00:00Z",
+      "updated_at": "2024-03-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 3,
+    "fields": {
+      "title": "Système État Civil Django",
+      "slug": "etat-civil-django",
+      "description": "Plateforme de gestion numérique des déclarations de naissance pour les maternités et mairies du Cameroun.",
+      "problem": "Les déclarations de naissance étaient gérées manuellement, entraînant perte d'information, délais et déplacements inutiles.",
+      "solution": "Application Django avec workflow maternité → mairie, génération PDF de certificat de naissance, et suivi en temps réel.",
+      "impact": "Traitement 3x plus rapide, zéro perte de données, interface admin complète pour 5 mairies pilotes.",
+      "image": "",
+      "category": "backend",
+      "github_url": "https://github.com/tonpseudo/etat-civil-django",
+      "demo_url": "",
+      "featured": true,
+      "order": 3,
+      "created_at": "2024-06-01T10:00:00Z",
+      "updated_at": "2024-06-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 4,
+    "fields": {
+      "title": "API REST Gestion Stocks",
+      "slug": "api-gestion-stocks",
+      "description": "API REST complète avec Django REST Framework pour la gestion d'inventaire d'une chaîne de magasins.",
+      "problem": "Une chaîne de distribution avait besoin d'une API centralisée pour synchroniser les stocks entre ses 8 points de vente.",
+      "solution": "API REST DRF avec authentification JWT, documentation Swagger, WebSockets pour mises à jour temps réel.",
+      "impact": "Synchronisation temps réel entre 8 magasins, réduction des ruptures de stock de 35%.",
+      "image": "",
+      "category": "api",
+      "github_url": "https://github.com/tonpseudo/api-stocks",
+      "demo_url": "",
+      "featured": false,
+      "order": 4,
+      "created_at": "2023-09-15T10:00:00Z",
+      "updated_at": "2023-09-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 5,
+    "fields": {
+      "title": "App Mobile École Flutter",
+      "slug": "app-mobile-ecole",
+      "description": "Application mobile Flutter pour la gestion scolaire : notes, présences, messagerie parents-enseignants.",
+      "problem": "Les parents n'avaient pas de visibilité en temps réel sur les performances et la présence de leurs enfants.",
+      "solution": "Application Flutter avec backend Django, notifications push, tableau de bord parents et interface professeurs.",
+      "impact": "300+ familles connectées, engagement parental amélioré de 50%, déployée dans 2 établissements.",
+      "image": "",
+      "category": "mobile",
+      "github_url": "https://github.com/tonpseudo/ecole-flutter",
+      "demo_url": "",
+      "featured": false,
+      "order": 5,
+      "created_at": "2023-12-01T10:00:00Z",
+      "updated_at": "2023-12-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 6,
+    "fields": {
+      "title": "Dashboard Analytics Django",
+      "slug": "dashboard-analytics",
+      "description": "Tableau de bord analytique pour e-commerce avec visualisations Chart.js, exports PDF et alertes automatiques.",
+      "problem": "Un e-commerce local manquait d'outils d'analyse pour suivre ses KPIs et prendre des décisions basées sur les données.",
+      "solution": "Dashboard Django avec Chart.js, filtres temporels, exports PDF/Excel, et système d'alertes automatiques par email.",
+      "impact": "Prise de décision data-driven, identification de 3 produits bestsellers masqués, CA +20% en 3 mois.",
+      "image": "",
+      "category": "fullstack",
+      "github_url": "https://github.com/tonpseudo/dashboard-analytics",
+      "demo_url": "",
+      "featured": false,
+      "order": 6,
+      "created_at": "2024-08-20T10:00:00Z",
+      "updated_at": "2024-08-20T10:00:00Z"
+    }
+  }
+]

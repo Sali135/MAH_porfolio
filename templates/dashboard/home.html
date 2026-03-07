@@ -1,0 +1,180 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Tableau de bord{% endblock %}
+{% block nav_home %}active{% endblock %}
+{% block page_title %}Tableau de bord{% endblock %}
+{% block breadcrumb %}Vue d'ensemble{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+
+  <!-- Stats cards -->
+  <div class="stats-row">
+    <div class="stat-widget">
+      <div class="stat-widget-icon" style="background:rgba(59,130,246,0.15);color:#60a5fa;">
+        <i data-lucide="monitor"></i>
+      </div>
+      <div class="stat-widget-data">
+        <span class="stat-widget-num">{{ stats.total_projects }}</span>
+        <span class="stat-widget-label">Projets total</span>
+      </div>
+      <a href="{% url 'dashboard:project_list' %}" class="stat-widget-link">Voir →</a>
+    </div>
+
+    <div class="stat-widget">
+      <div class="stat-widget-icon" style="background:rgba(234,179,8,0.15);color:#fbbf24;">
+        <i data-lucide="star"></i>
+      </div>
+      <div class="stat-widget-data">
+        <span class="stat-widget-num">{{ stats.featured_projects }}</span>
+        <span class="stat-widget-label">Projets vedettes</span>
+      </div>
+    </div>
+
+    <div class="stat-widget">
+      <div class="stat-widget-icon" style="background:rgba(139,92,246,0.15);color:#a78bfa;">
+        <i data-lucide="zap"></i>
+      </div>
+      <div class="stat-widget-data">
+        <span class="stat-widget-num">{{ stats.total_skills }}</span>
+        <span class="stat-widget-label">Compétences</span>
+      </div>
+      <a href="{% url 'dashboard:skill_list' %}" class="stat-widget-link">Voir →</a>
+    </div>
+
+    <div class="stat-widget {% if stats.unread_messages %}stat-alert{% endif %}">
+      <div class="stat-widget-icon" style="background:rgba(34,197,94,0.15);color:#4ade80;">
+        <i data-lucide="mail"></i>
+      </div>
+      <div class="stat-widget-data">
+        <span class="stat-widget-num">{{ stats.unread_messages }}</span>
+        <span class="stat-widget-label">Messages non lus</span>
+      </div>
+      <a href="{% url 'dashboard:message_list' %}?status=unread" class="stat-widget-link">Voir →</a>
+    </div>
+  </div>
+
+  <!-- Main grid -->
+  <div class="dash-main-grid">
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2>Projets par catégorie</h2>
+        <a href="{% url 'dashboard:project_create' %}" class="btn-dash btn-dash-primary">
+          <i data-lucide="plus" class="icon-sm"></i> Nouveau projet
+        </a>
+      </div>
+      <canvas id="projectsChart" height="220"></canvas>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2>Messages récents</h2>
+        <a href="{% url 'dashboard:message_list' %}" class="btn-dash btn-dash-ghost">Voir tous →</a>
+      </div>
+      <div class="messages-preview">
+        {% for msg in recent_messages %}
+        <a href="{% url 'dashboard:message_detail' msg.pk %}" class="msg-preview {% if not msg.is_read %}msg-unread{% endif %}">
+          <div class="msg-preview-avatar">{{ msg.name|first|upper }}</div>
+          <div class="msg-preview-content">
+            <div class="msg-preview-header">
+              <strong>{{ msg.name }}</strong>
+              <span class="msg-preview-date">{{ msg.created_at|date:"d/m/Y" }}</span>
+            </div>
+            <p class="msg-preview-text">{{ msg.message|truncatewords:12 }}</p>
+          </div>
+          {% if not msg.is_read %}<span class="msg-dot"></span>{% endif %}
+        </a>
+        {% empty %}
+        <p class="no-data">Aucun message pour l'instant.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects quick table -->
+  <div class="dash-card" style="margin-top:1.5rem;">
+    <div class="dash-card-header">
+      <h2>Derniers projets</h2>
+      <a href="{% url 'dashboard:project_list' %}" class="btn-dash btn-dash-ghost">Tous les projets →</a>
+    </div>
+    <div class="dash-table-wrapper">
+      <table class="dash-table">
+        <thead>
+          <tr>
+            <th>Projet</th>
+            <th>Catégorie</th>
+            <th>Vedette</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for project in recent_projects %}
+          <tr>
+            <td>
+              <strong>{{ project.title }}</strong>
+              <div class="table-sub">{{ project.description|truncatewords:8 }}</div>
+            </td>
+            <td><span class="cat-pill cat-{{ project.category }}">{{ project.get_category_display }}</span></td>
+            <td>
+              <button class="toggle-featured-btn {% if project.featured %}is-featured{% endif %}"
+                      data-project-id="{{ project.pk }}"
+                      title="{% if project.featured %}Retirer vedette{% else %}Mettre en vedette{% endif %}">
+                <i data-lucide="star" class="icon-sm"></i>
+              </button>
+            </td>
+            <td>
+              <div class="table-actions">
+                <a href="{% url 'dashboard:project_edit' project.pk %}" class="btn-dash btn-dash-sm btn-dash-ghost" title="Modifier">
+                  <i data-lucide="pencil" class="icon-sm"></i>
+                </a>
+                <a href="{% url 'dashboard:project_delete' project.pk %}" class="btn-dash btn-dash-sm btn-dash-danger" title="Supprimer">
+                  <i data-lucide="trash-2" class="icon-sm"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="no-data">Aucun projet. <a href="{% url 'dashboard:project_create' %}">Créer le premier →</a></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+  const projectsData = {{ projects_by_category|safe }};
+  const categoryLabels = {
+    'fullstack': 'Fullstack', 'backend': 'Backend',
+    'frontend': 'Frontend', 'api': 'API', 'mobile': 'Mobile'
+  };
+  const colors = ['#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444'];
+  if (projectsData.length > 0) {
+    const ctx = document.getElementById('projectsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: projectsData.map(d => categoryLabels[d.category] || d.category),
+        datasets: [{
+          data: projectsData.map(d => d.count),
+          backgroundColor: colors.slice(0, projectsData.length),
+          borderWidth: 0, hoverOffset: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#94a3b8', padding: 20, font: { family: 'Inter', size: 13 } }
+          }
+        },
+        cutout: '65%',
+      }
+    });
+  }
+</script>
+{% endblock %}

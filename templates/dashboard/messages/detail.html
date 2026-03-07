@@ -1,0 +1,47 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Message de {{ msg.name }}{% endblock %}
+{% block nav_messages %}active{% endblock %}
+{% block page_title %}Message de {{ msg.name }}{% endblock %}
+{% block breadcrumb %}<a href="{% url 'dashboard:message_list' %}">Messages</a> › {{ msg.name }}{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+  <div style="max-width:700px;">
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <div class="msg-detail-sender">
+          <div class="msg-detail-avatar">{{ msg.name|first|upper }}</div>
+          <div>
+            <strong>{{ msg.name }}</strong>
+            <a href="mailto:{{ msg.email }}" class="msg-detail-email">{{ msg.email }}</a>
+          </div>
+        </div>
+        <span class="msg-detail-date">{{ msg.created_at|date:"d/m/Y à H:i" }}</span>
+      </div>
+
+      {% if msg.subject %}
+      <div class="msg-detail-subject">
+        <strong>Sujet :</strong> {{ msg.subject }}
+      </div>
+      {% endif %}
+
+      <div class="msg-detail-body">
+        {{ msg.message|linebreaks }}
+      </div>
+
+      <div class="msg-detail-actions">
+        <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject|default:'Votre message' }}"
+           class="btn-dash btn-dash-primary">
+          <i data-lucide="reply" class="icon-sm"></i> Répondre par email
+        </a>
+        <a href="{% url 'dashboard:message_list' %}" class="btn-dash btn-dash-ghost">
+          <i data-lucide="arrow-left" class="icon-sm"></i> Retour
+        </a>
+        <a href="{% url 'dashboard:message_delete' msg.pk %}" class="btn-dash btn-dash-danger" style="margin-left:auto;">
+          <i data-lucide="trash-2" class="icon-sm"></i> Supprimer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

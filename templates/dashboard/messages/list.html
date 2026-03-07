@@ -1,0 +1,62 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Messages{% endblock %}
+{% block nav_messages %}active{% endblock %}
+{% block page_title %}Messages de contact{% endblock %}
+{% block breadcrumb %}Boîte de réception{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+  <div class="dash-toolbar">
+    <div class="filter-tabs">
+      <a href="{% url 'dashboard:message_list' %}" class="filter-tab {% if not status %}active{% endif %}">Tous</a>
+      <a href="?status=unread" class="filter-tab {% if status == 'unread' %}active{% endif %}">Non lus</a>
+      <a href="?status=read" class="filter-tab {% if status == 'read' %}active{% endif %}">Lus</a>
+    </div>
+  </div>
+
+  <div class="messages-admin-list dash-card">
+    {% for msg in messages_list %}
+    <div class="msg-admin-row {% if not msg.is_read %}msg-admin-unread{% endif %}">
+      <div class="msg-admin-avatar" style="background:linear-gradient(135deg,#1e40af,#3b82f6);">
+        {{ msg.name|first|upper }}
+      </div>
+      <div class="msg-admin-content">
+        <div class="msg-admin-header">
+          <strong>{{ msg.name }}</strong>
+          {% if msg.subject %}<span class="msg-subject">{{ msg.subject }}</span>{% endif %}
+          <span class="msg-admin-email">{{ msg.email }}</span>
+        </div>
+        <p class="msg-admin-preview">{{ msg.message|truncatewords:20 }}</p>
+      </div>
+      <div class="msg-admin-meta">
+        <span class="msg-admin-date">{{ msg.created_at|date:"d/m/Y H:i" }}</span>
+        {% if not msg.is_read %}<span class="msg-unread-dot"></span>{% endif %}
+      </div>
+      <div class="msg-admin-actions">
+        <a href="{% url 'dashboard:message_detail' msg.pk %}" class="btn-dash btn-dash-sm btn-dash-ghost" title="Lire">
+          <i data-lucide="eye" class="icon-sm"></i> Lire
+        </a>
+        <button class="btn-dash btn-dash-sm btn-dash-ghost toggle-read-btn"
+                data-msg-id="{{ msg.pk }}"
+                title="{% if msg.is_read %}Marquer non lu{% else %}Marquer lu{% endif %}">
+          {% if msg.is_read %}
+            <i data-lucide="mail" class="icon-sm"></i> Non lu
+          {% else %}
+            <i data-lucide="check-circle" class="icon-sm"></i> Lu
+          {% endif %}
+        </button>
+        <a href="{% url 'dashboard:message_delete' msg.pk %}" class="btn-dash btn-dash-sm btn-dash-danger" title="Supprimer">
+          <i data-lucide="trash-2" class="icon-sm"></i>
+        </a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="empty-state" style="padding:3rem;">
+      <i data-lucide="inbox" class="empty-icon-svg"></i>
+      <h3>Aucun message</h3>
+      <p>Votre boîte de réception est vide.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

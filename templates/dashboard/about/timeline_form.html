@@ -1,0 +1,38 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ action }} une étape{% endblock %}
+{% block nav_about %}active{% endblock %}
+{% block page_title %}{{ action }} une étape du parcours{% endblock %}
+{% block breadcrumb %}À propos › {{ action }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h2 class="page-title">{{ action }} une étape du parcours</h2>
+  <a href="{% url 'dashboard:about_edit' %}" class="dash-btn dash-btn-ghost">
+    <i data-lucide="arrow-left" class="icon-sm"></i> Retour
+  </a>
+</div>
+
+<div class="dash-card" style="max-width:680px;">
+  <div class="dash-card-header">
+    <i data-lucide="git-commit-horizontal" class="icon-sm" style="color:var(--dash-accent)"></i>
+    <h3>{{ action }} l'étape</h3>
+  </div>
+  <form method="post" style="padding:1.5rem;">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group" style="margin-bottom:1.25rem;">
+      <label class="dash-label">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<small class="form-help">{{ field.help_text }}</small>{% endif %}
+      {% if field.errors %}<span class="form-error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    <div style="display:flex;gap:.75rem;margin-top:1.5rem;">
+      <button type="submit" class="dash-btn dash-btn-primary">
+        <i data-lucide="save" class="icon-sm"></i> {{ action }}
+      </button>
+      <a href="{% url 'dashboard:about_edit' %}" class="dash-btn dash-btn-ghost">Annuler</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
