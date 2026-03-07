@@ -5,6 +5,7 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PIP_ROOT_USER_ACTION=ignore
 
 # Set work directory
 WORKDIR /code
@@ -29,6 +30,10 @@ COPY . .
 # Copy and prepare entrypoint script
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Create a non-root user and change ownership
+RUN useradd -m django && chown -R django:django /code
+USER django
 
 # Start the application
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
