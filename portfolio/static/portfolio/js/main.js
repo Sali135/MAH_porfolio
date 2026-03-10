@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initBackToTop();
   autoCloseToasts();
+  initMagneticLinks();
+  initLenis();
+  initCustomCursor();
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
 });
 
 
@@ -45,16 +51,29 @@ function initNavbar() {
   const navbar = document.getElementById('navbar');
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('section[id]');
+  let lastScrollY = window.scrollY;
 
   window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    
     // Scrolled class for shadow
-    navbar?.classList.toggle('scrolled', window.scrollY > 50);
+    navbar?.classList.toggle('scrolled', currentScrollY > 50);
+
+    // Auto-hide behavior
+    if (currentScrollY > 100 && currentScrollY > lastScrollY) {
+      if (!document.getElementById('nav-links')?.classList.contains('open')) {
+        navbar?.classList.add('navbar-hidden');
+      }
+    } else {
+      navbar?.classList.remove('navbar-hidden');
+    }
+    lastScrollY = currentScrollY;
 
     // Active link tracking
     let currentSection = '';
     sections.forEach(section => {
       const top = section.offsetTop - 100;
-      if (window.scrollY >= top) {
+      if (currentScrollY >= top) {
         currentSection = section.getAttribute('id');
       }
     });
@@ -155,7 +174,7 @@ function initTypingEffect() {
     'Architecte API REST',
     'Expert Django REST Framework',
     'Développeur Flutter',
-    'Builder EdTech 🇨🇲',
+    'Builder EdTech',
   ];
 
   let phraseIndex = 0;
@@ -331,7 +350,6 @@ function initProjectModals() {
         impact: btn.getAttribute('data-impact'),
         github: btn.getAttribute('data-github'),
         demo: btn.getAttribute('data-demo'),
-        category: btn.getAttribute('data-category'),
       };
       openProjectModal(data, modal, modalContent);
     });
@@ -350,26 +368,25 @@ function initProjectModals() {
 function openProjectModal(data, modal, content) {
   content.innerHTML = `
     <div class="modal-header">
-      <span class="modal-category">${data.category}</span>
       <h2 class="modal-title" id="modal-title">${data.title}</h2>
       <p class="modal-desc">${data.desc}</p>
     </div>
 
     ${data.problem ? `
     <div class="modal-section">
-      <h4>🎯 Problème résolu</h4>
+      <h4><i data-lucide="target" class="inline-icon"></i> Problème résolu</h4>
       <p>${data.problem}</p>
     </div>` : ''}
 
     ${data.solution ? `
     <div class="modal-section">
-      <h4>⚡ Solution apportée</h4>
+      <h4><i data-lucide="zap" class="inline-icon"></i> Solution apportée</h4>
       <p>${data.solution}</p>
     </div>` : ''}
 
     ${data.impact ? `
     <div class="modal-section">
-      <h4>📈 Impact & Résultats</h4>
+      <h4><i data-lucide="trending-up" class="inline-icon"></i> Impact & Résultats</h4>
       <p>${data.impact}</p>
     </div>` : ''}
 
@@ -381,7 +398,7 @@ function openProjectModal(data, modal, content) {
       </a>` : ''}
       ${data.demo ? `
       <a href="${data.demo}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-        🚀 Voir la démo
+        <i data-lucide="external-link" class="inline-icon"></i> Voir la démo
       </a>` : ''}
     </div>
   `;
@@ -389,6 +406,9 @@ function openProjectModal(data, modal, content) {
   modal.removeAttribute('hidden');
   document.body.style.overflow = 'hidden';
   closeBtn?.focus();
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
 }
 
 function closeModal(modal) {
@@ -425,14 +445,112 @@ function initBackToTop() {
 }
 
 
-// ── 13. AUTO-CLOSE TOASTS ─────────────────────────────────────
+// ── 13. AUTO-CLOSE TOASTS (PREMIUM) ───────────────────────────
 function autoCloseToasts() {
-  document.querySelectorAll('.toast-message').forEach(toast => {
+  document.querySelectorAll('.premium-toast').forEach(toast => {
+    // Auto remove after 5s (matches progress bar animation)
     setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(100%)';
-      toast.style.transition = 'all 0.4s ease';
-      setTimeout(() => toast.remove(), 400);
+      closePremiumToastEl(toast);
     }, 5000);
   });
 }
+
+function closePremiumToastEl(toast) {
+  if (toast.classList.contains('closing')) return;
+  toast.classList.add('closing');
+  toast.addEventListener('animationend', () => {
+    toast.remove();
+  }, { once: true });
+}
+
+// Global exposure for the inline onclick handler in HTML
+window.closePremiumToast = function(btn) {
+  const toast = btn.closest('.premium-toast');
+  if (toast) closePremiumToastEl(toast);
+};
+
+// ── 15. CUSTOM CURSOR ─────────────────────────────────────────
+function initCustomCursor() {
+  const cursor = document.querySelector('.custom-cursor');
+  const follower = document.querySelector('.custom-cursor-follower');
+  if (!cursor || !follower) return;
+
+  if (window.innerWidth < 768) {
+    document.body.style.cursor = 'auto'; // Revert on mobile
+    return;
+  }
+
+  // Only hide default cursor when JS successfully initializes Custom Cursor
+  document.body.classList.add('has-custom-cursor');
+
+  let mouseX = 0, mouseY = 0;
+  let followerX = 0, followerY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Immediate cursor update
+    cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+  });
+
+  // Smooth follower update
+  function animateFollower() {
+    followerX += (mouseX - followerX) * 0.10; // Softer spring
+    followerY += (mouseY - followerY) * 0.10;
+    follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%)`;
+    requestAnimationFrame(animateFollower);
+  }
+  animateFollower();
+
+  // Hover states
+  const hoverElements = document.querySelectorAll('a, button, .nav-link, .social-card, .btn');
+  hoverElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('hover');
+      follower.classList.add('hover');
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hover');
+      follower.classList.remove('hover');
+    });
+  });
+}
+
+// ── 16. LENIS SMOOTH SCROLL ───────────────────────────────────
+function initLenis() {
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({
+      duration: 1.6, // Longer duration for floaty feel
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 1,
+      smoothTouch: false,
+      touchMultiplier: 2,
+      infinite: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Update smooth scrolling for anchor links to use Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const targetId = anchor.getAttribute('href');
+        const target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target);
+          if(typeof closeMobileMenu === 'function') closeMobileMenu();
+        }
+      });
+    });
+  }
+}
+

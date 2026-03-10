@@ -11,11 +11,24 @@
     content="Django developer, Python developer, Yaoundé, Cameroun, portfolio, DRF, API, fullstack" />
   <meta name="author" content="Mahamadou Salissou" />
 
-  <!-- Open Graph -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'portfolio/images/favicon.svg' %}" />
+  <link rel="shortcut icon" href="{% static 'portfolio/images/favicon.svg' %}" />
+  <link rel="canonical" href="https://votre-portfolio.com{{ request.path }}" />
+
+  <!-- Open Graph / LinkedIn / Facebook -->
   <meta property="og:title" content="Mahamadou Salissou — Développeur Python/Django" />
-  <meta property="og:description" content="Portfolio de développeur Python/Django basé à Yaoundé, Cameroun." />
+  <meta property="og:description"
+    content="Développeur Backend et Fullstack Python/Django à Yaoundé. Création d'APIs robustes et plateformes web modernes." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://votre-portfolio.com" />
+  <meta property="og:url" content="https://votre-portfolio.com{{ request.path }}" />
+  <meta property="og:image" content="https://votre-portfolio.com{% static 'portfolio/images/og-image.jpg' %}" />
+  <meta property="og:site_name" content="Mahamadou Salissou Portfolio" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mahamadou Salissou — Développeur Python/Django" />
+  <meta name="twitter:description" content="Développeur Backend et Fullstack Python/Django à Yaoundé." />
+  <meta name="twitter:image" content="https://votre-portfolio.com{% static 'portfolio/images/og-image.jpg' %}" />
 
   <!-- Schema.org Person -->
   <script type="application/ld+json">
@@ -39,22 +52,41 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap"
     rel="stylesheet" />
 
-  <!-- Devicons (tech stack icons) -->
+  <!-- Devicons (tech stack icons) & Lucide (UI icons) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}?v=2.1" />
 
   {% block extra_head %}{% endblock %}
 </head>
 
 <body>
+  <!-- ===== CUSTOM CURSOR ===== -->
+  <div class="custom-cursor"></div>
+  <div class="custom-cursor-follower"></div>
 
   <!-- ===== NAVBAR ===== -->
   <nav id="navbar" class="navbar" role="navigation" aria-label="Navigation principale">
     <div class="nav-container">
-      <a href="#hero" class="nav-logo" aria-label="Accueil">
-        <span class="logo-name">MH_Dev</span>
+      <a href="{% url 'portfolio:index' %}" class="nav-logo" aria-label="Accueil"
+        style="display: flex; align-items: center;">
+        <!-- Logo SVG Premium Monogram -->
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
+          style="margin-right:0.6rem; filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));">
+          <rect x="22" y="22" width="56" height="56" stroke="#475569" stroke-width="3" fill="none" opacity="0.6" />
+          <rect x="50" y="10" width="56.5" height="56.5" transform="rotate(45 50 10)" stroke="var(--accent)"
+            stroke-width="3.5" fill="none" opacity="0.9" />
+          <path d="M 28 85 L 28 25 L 50 48 L 72 25 L 72 85" stroke="var(--accent)" stroke-width="7"
+            stroke-linejoin="miter" stroke-linecap="butt" />
+          <path d="M 40 78 L 40 40 L 50 50 L 60 40 L 60 78" stroke="#f8fafc" stroke-width="5" stroke-linejoin="miter"
+            stroke-linecap="butt" />
+          <path d="M 40 60 L 60 60" stroke="#f8fafc" stroke-width="5" stroke-linecap="butt" />
+        </svg>
+        <span class="logo-name" style="font-size: 1.4rem; font-weight: 700; letter-spacing: 1px;">MH<span
+            style="color:var(--accent);">-</span>C<span style="position:relative;display:inline-block;">O<span
+              style="position:absolute; width:5px; height:5px; background:var(--accent); border-radius:50%; top:50%; left:50%; transform:translate(-50%, -50%);"></span></span>DE</span>
       </a>
 
       <!-- Desktop nav links -->
@@ -68,8 +100,8 @@
       <div class="nav-actions">
         <!-- Dark/Light mode toggle -->
         <button id="theme-toggle" class="theme-btn" aria-label="Basculer le thème">
-          <span class="theme-icon sun">☀️</span>
-          <span class="theme-icon moon">🌙</span>
+          <span class="theme-icon sun"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span>
+          <span class="theme-icon moon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span>
         </button>
 
         <!-- Hamburger menu (mobile) -->
@@ -82,13 +114,35 @@
     </div>
   </nav>
 
-  <!-- ===== MESSAGES DJANGO ===== -->
+  <!-- ===== MESSAGES DJANGO (PREMIUM TOASTS) ===== -->
   {% if messages %}
-  <div class="messages-container" role="alert" aria-live="polite">
+  <div class="toast-container" role="alert" aria-live="polite">
     {% for message in messages %}
-    <div class="toast-message toast-{{ message.tags }}">
-      {{ message }}
-      <button class="toast-close" onclick="this.parentElement.remove()" aria-label="Fermer">×</button>
+    <div class="premium-toast toast-{{ message.tags }}">
+      <div class="toast-icon">
+        {% if message.tags == 'success' %}
+        <i data-lucide="check-circle-2"></i>
+        {% elif message.tags == 'error' %}
+        <i data-lucide="x-octagon"></i>
+        {% elif message.tags == 'warning' %}
+        <i data-lucide="alert-triangle"></i>
+        {% else %}
+        <i data-lucide="info"></i>
+        {% endif %}
+      </div>
+      <div class="toast-content">
+        <span class="toast-title">
+          {% if message.tags == 'success' %}Succès
+          {% elif message.tags == 'error' %}Erreur
+          {% elif message.tags == 'warning' %}Attention
+          {% else %}Information{% endif %}
+        </span>
+        <p class="toast-message-text">{{ message }}</p>
+      </div>
+      <button class="toast-close-btn" onclick="closePremiumToast(this)" aria-label="Fermer">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="toast-progress"></div>
     </div>
     {% endfor %}
   </div>
@@ -103,43 +157,83 @@
   <footer class="footer" role="contentinfo">
     <div class="footer-container">
       <div class="footer-top">
+        <!-- Colonne 1 : Brand & Desc -->
         <div class="footer-brand">
-          <span class="logo-name">Mahamadou Salissou</span>
-          <p>Développeur Python/Django · Yaoundé, Cameroun</p>
+          <a href="{% url 'portfolio:index' %}" class="nav-logo" aria-label="Accueil"
+            style="margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; width: max-content;">
+            <!-- Logo SVG Premium Monogram -->
+            <svg width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
+              style="filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.7)); margin-bottom: 0.8rem;">
+              <rect x="22" y="22" width="56" height="56" stroke="#475569" stroke-width="3" fill="none" opacity="0.6" />
+              <rect x="50" y="10" width="56.5" height="56.5" transform="rotate(45 50 10)" stroke="var(--accent)"
+                stroke-width="3.5" fill="none" opacity="0.9" />
+              <path d="M 28 85 L 28 25 L 50 48 L 72 25 L 72 85" stroke="var(--accent)" stroke-width="7"
+                stroke-linejoin="miter" stroke-linecap="butt" />
+              <path d="M 40 78 L 40 40 L 50 50 L 60 40 L 60 78" stroke="#f8fafc" stroke-width="5"
+                stroke-linejoin="miter" stroke-linecap="butt" />
+              <path d="M 40 60 L 60 60" stroke="#f8fafc" stroke-width="5" stroke-linecap="butt" />
+            </svg>
+            <span class="logo-name"
+              style="text-transform: uppercase; font-size: 1.8rem; line-height: 1.1; font-weight: 700; letter-spacing: 2px;">MH<span
+                style="color:var(--accent);">-</span>C<span style="position:relative;display:inline-block;">O<span
+                  style="position:absolute; width:6px; height:6px; background:var(--accent); border-radius:50%; top:50%; left:50%; transform:translate(-50%, -50%);"></span></span>DE</span>
+          </a>
+          <p>Je développe des sites web et<br>applications pour vos projets.</p>
         </div>
-        <nav class="footer-links" aria-label="Liens footer">
-          <a href="#about">À propos</a>
-          <a href="#skills">Compétences</a>
-          <a href="#projects">Projets</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <div class="footer-social">
-          <a href="https://github.com/tonpseudo" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
-            class="social-link">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-          </a>
-          <a href="https://linkedin.com/in/tonprofil" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-            class="social-link">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-              <path
-                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-          </a>
-          <a href="https://wa.me/237600000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-            class="social-link">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-            </svg>
-          </a>
+
+        <!-- Colonne 2 : Liens rapides -->
+        <div class="footer-links-col">
+          <h4 class="footer-title">Liens rapides</h4>
+          <nav class="footer-links" aria-label="Liens rapides">
+            <a href="#about">À propos</a>
+            <a href="#projects">Projets</a>
+            <a href="#blog">Blog</a>
+            <a href="#formations">Formations</a>
+            <a href="#contact">Contact</a>
+            <a href="#outils">Outils</a>
+          </nav>
+        </div>
+
+        <!-- Colonne 3 : Contact -->
+        <div class="footer-contact-col">
+          <h4 class="footer-title">Contact</h4>
+          <div class="footer-contact-items">
+            <a href="mailto:moihedabdoul@gmail.com" class="contact-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> moihedabdoul@gmail.com
+            </a>
+            <div class="contact-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg> Cameroun, Yaoundé
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne 4 : Socials -->
+        <div class="footer-social-col">
+          <h4 class="footer-title">Suivez-moi</h4>
+          <div class="footer-social">
+            <a href="https://github.com/Sali135" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+              class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.18-.38 6.52-1.6 6.52-7.02a5.2 5.2 0 0 0-1.42-3.7 5.1 5.1 0 0 0-.14-3.66s-1.18-.35-3.9 1.48a13.38 13.38 0 0 0-7 0c-2.72-1.83-3.9-1.48-3.9-1.48a5.1 5.1 0 0 0-.14 3.66 5.2 5.2 0 0 0-1.42 3.7c0 5.4 3.34 6.64 6.52 7.02a4.8 4.8 0 0 0-1 3.02V22"/><path d="M9 20c-5 1.5-5-2.5-7-3"/></svg>
+            </a>
+            <a href="https://linkedin.com/in/tonprofil" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+              class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="mailto:moihedabdoul@gmail.com" aria-label="Email" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 Mahamadou Salissou. Tous droits réservés. Yaoundé, Cameroun.</p>
-        <button id="back-to-top" class="back-to-top" aria-label="Retour en haut">↑</button>
+        <div class="footer-bottom-left">
+          <p>© 2026 MH-CODE. Tous droits réservés.</p>
+          <span class="hosting-info"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud inline-icon" style="color:var(--accent); margin-left: 0.25rem;"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
+        </div>
+        <div class="footer-bottom-right">
+          <a href="#">Confidentialité</a>
+          <a href="#">Gestion des cookies</a>
+        </div>
       </div>
     </div>
   </footer>
@@ -151,6 +245,9 @@
       <div id="modal-content"></div>
     </div>
   </div>
+
+  <!-- ===== LENIS SMOOTH SCROLL ===== -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
 
   <!-- ===== JAVASCRIPT ===== -->
   <script src="{% static 'portfolio/js/main.js' %}"></script>

@@ -4,6 +4,7 @@ Skill, Project, ContactMessage avec best practices Django 5.1
 """
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 
 class Skill(models.Model):
@@ -91,6 +92,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # Even though these are single-page anchors, let's point to the home with the anchor
+        return reverse('portfolio:index') + f'#projects'
 
     def get_tech_list(self):
         return self.technologies.all()

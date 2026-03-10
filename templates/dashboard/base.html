@@ -83,9 +83,9 @@
         <span class="user-name">{{ user.username }}</span>
         <span class="user-role">{% if user.is_superuser %}Super Admin{% else %}Staff{% endif %}</span>
       </div>
-      <a href="{% url 'dashboard:logout' %}" class="logout-btn" title="Déconnexion">
+      <button type="button" class="logout-btn" title="Déconnexion" onclick="openLogoutModal()">
         <i data-lucide="log-out" class="icon-sm"></i>
-      </a>
+      </button>
     </div>
   </aside>
 
@@ -136,10 +136,46 @@
   {% block auth_content %}{% endblock %}
   {% endif %}
 
+  <!-- ===== LOGOUT MODAL ===== -->
+  <div id="logout-modal" class="dash-modal-overlay" aria-hidden="true">
+    <div class="dash-modal-wrapper">
+      <div class="dash-modal-header">
+        <div class="modal-icon-wrapper warning">
+          <i data-lucide="log-out"></i>
+        </div>
+        <h3 class="dash-modal-title">Déconnexion</h3>
+        <button class="dash-modal-close" onclick="closeLogoutModal()" aria-label="Fermer">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="dash-modal-body">
+        <p>Êtes-vous sûr de vouloir vous déconnecter du tableau de bord ? Vous devrez vous reconnecter pour accéder l'administration.</p>
+      </div>
+      <div class="dash-modal-footer">
+        <button class="dash-btn dash-btn-ghost" onclick="closeLogoutModal()">Annuler</button>
+        <a href="{% url 'dashboard:logout' %}" class="dash-btn dash-btn-danger">
+          <i data-lucide="power" class="icon-sm"></i> Me déconnecter
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script>lucide.createIcons();</script>
   <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+  <script>
+    function openLogoutModal() {
+      const modal = document.getElementById('logout-modal');
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    function closeLogoutModal() {
+      const modal = document.getElementById('logout-modal');
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  </script>
   {% block extra_scripts %}{% endblock %}
 </body>
 
