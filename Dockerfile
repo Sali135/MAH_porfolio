@@ -31,9 +31,16 @@ COPY . .
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Create a non-root user and change ownership
-RUN useradd -m django && chown -R django:django /code
+# Create a non-root user
+RUN useradd -m django
+
+# Create directories and set permissions
+RUN mkdir -p /code/staticfiles /code/media && \
+    chown -R django:django /code && \
+    chmod -R 775 /code
+
 USER django
+
 
 # Start the application
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

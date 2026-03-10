@@ -3,16 +3,15 @@
 # Exit on error
 set -e
 
-# Function to wait for database if using Postgres
-if [ "$DATABASE_URL" ]; then
-    echo "Waiting for database..."
-    # Extract host and port from DATABASE_URL if possible, or use env vars
-    # Simpler approach: check if db service is reachable
-    while ! nc -z $DB_HOST $DB_PORT; do
-      sleep 0.1
-    done
-    echo "Database started"
-fi
+echo "Starting entrypoint script..."
+
+
+# Wait for DB
+echo "Waiting for database..."
+while ! nc -z db 5432; do
+  sleep 0.1
+done
+echo "Database is ready!"
 
 # Run migrations
 echo "Running migrations..."

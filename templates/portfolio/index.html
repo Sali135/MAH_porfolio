@@ -103,21 +103,21 @@
 
         <div class="about-highlights">
           <div class="highlight-item">
-            <span class="highlight-icon" aria-hidden="true"><i data-lucide="target"></i></span>
+            <span class="highlight-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
             <div>
               <strong>Basé à Yaoundé</strong>
               <span>Disponible </span>
             </div>
           </div>
           <div class="highlight-item">
-            <span class="highlight-icon" aria-hidden="true"><i data-lucide="globe"></i></span>
+            <span class="highlight-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
             <div>
               <strong>Langues</strong>
               <span>Français · Anglais</span>
             </div>
           </div>
           <div class="highlight-item">
-            <span class="highlight-icon" aria-hidden="true"><i data-lucide="zap"></i></span>
+            <span class="highlight-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><path d="M4 14.5L12 3V10H20L12 21.5V14.5H4Z"/></svg></span>
             <div>
               <strong>Spécialités</strong>
               <span>Django · APIs</span>
@@ -151,7 +151,7 @@
           <div class="stat-card glass-card" data-count="{{ stats.coffee }}">
             <span class="stat-number counter" data-target="{{ stats.coffee }}">0</span>
             <span class="stat-suffix">+</span>
-            <span class="stat-label">cafés <i data-lucide="coffee" class="inline-icon"></i></span>
+            <span class="stat-label">cafés <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coffee inline-icon"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></span>
           </div>
         </div>
 
@@ -267,16 +267,15 @@
           {% else %}
           <div class="project-image-placeholder" style="background: linear-gradient(135deg, #1e40af22, #3b82f622);">
             <span class="project-placeholder-icon">
-              {% if project.category == 'backend' %}<i data-lucide="server"></i>
-              {% elif project.category == 'api' %}<i data-lucide="cable"></i>
-              {% elif project.category == 'mobile' %}<i data-lucide="smartphone"></i>
-              {% else %}<i data-lucide="monitor"></i>{% endif %}
+              {% if project.category == 'backend' %}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              {% elif project.category == 'api' %}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cable"><path d="M17 21v-2a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v2"/><path d="M19 15V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V9"/><path d="M21 21v-2h-4v2"/><path d="M3 5h4V3"/><path d="M7 5a1 1 0 0 1 1 1v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1"/><path d="M3 21v-2"/><path d="M5 21v-2"/></svg>
+              {% elif project.category == 'mobile' %}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+              {% else %}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>{% endif %}
             </span>
           </div>
           {% endif %}
           {% if project.featured %}
-          <span class="project-badge featured-badge"><i data-lucide="star" class="inline-icon"
-              style="width:12px; height:12px;"></i> Vedette</span>
+          <span class="project-badge featured-badge"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-icon" style="width:12px; height:12px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Vedette</span>
           {% endif %}
         </div>
 
@@ -315,7 +314,7 @@
             {% if project.demo_url %}
             <a href="{{ project.demo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-accent"
               aria-label="Démo de {{ project.title }}">
-              <i data-lucide="external-link" class="inline-icon"></i> Demo
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link inline-icon"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg> Demo
             </a>
             {% endif %}
           </div>
@@ -344,14 +343,14 @@
       <!-- Info contact -->
       <div class="contact-info reveal">
         <div class="contact-item glass-card">
-          <span class="contact-icon" aria-hidden="true"><i data-lucide="mail"></i></span>
+          <span class="contact-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
           <div>
             <strong>Email</strong>
             <a href="mailto:moihedabdoul@gmail.com">moihedabdoul@gmail.com</a>
           </div>
         </div>
         <div class="contact-item glass-card">
-          <span class="contact-icon" aria-hidden="true"><i data-lucide="map-pin"></i></span>
+          <span class="contact-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></span>
           <div>
             <strong>Localisation</strong>
             <span>Yaoundé, Cameroun</span>
@@ -361,8 +360,7 @@
           <span class="contact-icon" aria-hidden="true"><i data-lucide="briefcase"></i></span>
           <div>
             <strong>Disponibilité</strong>
-            <span class="availability-badge"><i data-lucide="check-circle" class="inline-icon"
-                style="width:14px; height:14px;"></i> Disponible</span>
+            <span class="availability-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle inline-icon" style="width:14px; height:14px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Disponible</span>
           </div>
         </div>
 
@@ -436,7 +434,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary btn-full" id="submit-btn">
-            <span class="btn-text">Envoyer <i data-lucide="send" class="inline-icon"></i></span>
+            <span class="btn-text">Envoyer <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send inline-icon"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
             <span class="btn-loading" hidden>
               <span class="spinner"></span>
               Envoi en cours...

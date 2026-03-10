@@ -1,6 +1,20 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=django_db
+      - POSTGRES_USER=django
+      - POSTGRES_PASSWORD=django
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U django -d django_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   web:
     build: .
     volumes:
@@ -11,28 +25,12 @@ services:
       - "8000:8000"
     env_file:
       - .env
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
     depends_on:
       db:
         condition: service_healthy
 
-  db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: portfolio_db
-      POSTGRES_USER: portfolio_user
-      POSTGRES_PASSWORD: portfolio_pass
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U portfolio_user -d portfolio_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
 volumes:
-  postgres_data:
   static_volume:
   media_volume:
+  postgres_data:
+
