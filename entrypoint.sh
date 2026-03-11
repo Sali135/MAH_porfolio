@@ -10,6 +10,12 @@ echo "Starting entrypoint script..."
 echo "Running migrations..."
 python manage.py migrate --noinput
 
+# Load initial data from dump if exists
+if [ -f "data_dump.json" ]; then
+    echo "Loading initial data from data_dump.json..."
+    python manage.py loaddata data_dump.json
+fi
+
 # Create superuser if environment variables are set
 echo "Checking for superuser creation..."
 if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
