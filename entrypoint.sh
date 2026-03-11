@@ -16,42 +16,6 @@ if [ -f "data_dump.json" ]; then
     python manage.py loaddata data_dump.json || echo "WARNING: Data loading failed, skipping..."
 fi
 
-# Create or update superuser if environment variables are set
-echo "Checking for superuser creation/update..."
-python manage.py shell <<EOF
-import os
-from django.contrib.auth import get_user_model, authenticate
-
-User = get_user_model()
-username = os.environ.get('DJANGO_SUPERUSER_USERNAME')
-email = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@example.com')
-password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
-
-if not username or not password:
-    print('Superuser variables not set, skipping sync.')
-else:
-    print(f'Syncing user: {username}')
-    user, created = User.objects.update_or_create(
-        username=username, 
-        defaults={
-            'email': email, 
-            'is_superuser': True, 
-            'is_staff': True,
-            'is_active': True
-        }
-    )
-    user.set_password(password)
-    user.save()
-    print(f'Sync complete. Created: {created}. Status: Active.')
-    
-    # Self-test
-    test_user = authenticate(username=username, password=password)
-    if test_user:
-        print(f'Self-test success: User {username} is authenticated.')
-    else:
-        print(f'Self-test FAILURE: User {username} could not be authenticated after sync.')
-EOF
-
 # Collect static files
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
