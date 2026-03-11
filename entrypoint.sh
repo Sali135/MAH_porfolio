@@ -13,7 +13,12 @@ python manage.py migrate --noinput
 # Create superuser if environment variables are set
 echo "Checking for superuser creation..."
 if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
-    python manage.py createsuperuser --no-input || echo "Superuser already exists or could not be created."
+    python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); \
+    username = '$DJANGO_SUPERUSER_USERNAME'; \
+    email = '$DJANGO_SUPERUSER_EMAIL'; \
+    password = '$DJANGO_SUPERUSER_PASSWORD'; \
+    not User.objects.filter(username=username).exists() and User.objects.create_superuser(username, email, password); \
+    print('Superuser check finished.')"
 fi
 
 # Collect static files
