@@ -25,6 +25,14 @@ def is_staff(user):
     return user.is_staff or user.is_superuser
 
 
+@login_required(login_url='dashboard:login')
+@user_passes_test(is_staff, login_url='dashboard:login')
+def dashboard_logout(request):
+    logout(request)
+    messages.success(request, '✅ Déconnexion réussie.')
+    return redirect('dashboard:login')
+
+
 # ── AUTH ──────────────────────────────────────────────────────
 def dashboard_login(request):
     """Page de connexion de l'espace admin."""
@@ -33,32 +41,39 @@ def dashboard_login(request):
 
     form = DashboardLoginForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
-        user = authenticate(
-            request,
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password'],
-        )
-        print(f"Auth attempt: {form.cleaned_data['username']}. Result: {'Success' if user else 'Fail'}")
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        
+        # Superuser Lazy Sync (Ensures admin works even if entrypoint failed)
+        import os
+        from django.contrib.auth import get_user_model
+        env_user = os.environ.get('DJANGO_SUPERUSER_USERNAME')
+        env_pass = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
+        
+        if env_user and env_user == username:
+            User = get_user_model()
+            user_obj, created = User.objects.get_or_create(username=username)
+            user_obj.set_password(env_pass)
+            user_obj.is_superuser = True
+            user_obj.is_staff = True
+            user_obj.is_active = True
+            user_obj.save()
+            print(f"Lazy Sync: User {username} synced from ENV. Created: {created}")
+
+        user = authenticate(request, username=username, password=password)
+        print(f"Auth attempt: {username}. Result: {'Success' if user else 'Fail'}")
+        
         if user:
             print(f"User check: staff={user.is_staff}, super={user.is_superuser}")
             if user.is_staff or user.is_superuser:
                 login(request, user)
                 return redirect(request.GET.get('next', 'dashboard:home'))
             else:
-                print("Access denied: Not staff or superuser.")
                 messages.error(request, '❌ Accès non autorisé (staff requis).')
         else:
             messages.error(request, '❌ Identifiants incorrects ou accès non autorisé.')
 
     return render(request, 'dashboard/login.html', {'form': form})
-
-
-@login_required(login_url='dashboard:login')
-@user_passes_test(is_staff, login_url='dashboard:login')
-def dashboard_logout(request):
-    logout(request)
-    messages.success(request, '✅ Déconnexion réussie.')
-    return redirect('dashboard:login')
 
 
 # ── HOME / STATS ──────────────────────────────────────────────
