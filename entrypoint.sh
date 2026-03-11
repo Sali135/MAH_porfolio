@@ -16,15 +16,19 @@ if [ -f "data_dump.json" ]; then
     python manage.py loaddata data_dump.json
 fi
 
-# Create superuser if environment variables are set
-echo "Checking for superuser creation..."
+# Create or update superuser if environment variables are set
+echo "Checking for superuser creation/update..."
 if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
     python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); \
     username = '$DJANGO_SUPERUSER_USERNAME'; \
     email = '$DJANGO_SUPERUSER_EMAIL'; \
     password = '$DJANGO_SUPERUSER_PASSWORD'; \
-    not User.objects.filter(username=username).exists() and User.objects.create_superuser(username, email, password); \
-    print('Superuser check finished.')"
+    user, created = User.objects.get_or_create(username=username, defaults={'email': email}); \
+    user.set_password(password); \
+    user.is_superuser = True; \
+    user.is_staff = True; \
+    user.save(); \
+    print('Superuser created/updated successfully.')"
 fi
 
 # Collect static files
