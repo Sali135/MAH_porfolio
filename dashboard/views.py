@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
@@ -23,6 +23,28 @@ from .forms import (
 
 def is_staff(user):
     return user.is_staff or user.is_superuser
+
+
+def create_admin_temp(request):
+    """Temporary view to create a superuser on Render Free."""
+    import os
+    from django.contrib.auth import get_user_model
+    username = os.environ.get('DJANGO_SUPERUSER_USERNAME')
+    password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
+    email = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@example.com')
+
+    if not username or not password:
+        return HttpResponse("Fermez cette page : Les variables DJANGO_SUPERUSER_USERNAME ou PASSWORD ne sont pas configurées sur Render.", status=400)
+
+    User = get_user_model()
+    user, created = User.objects.get_or_create(username=username, defaults={'email': email})
+    user.set_password(password)
+    user.is_superuser = True
+    user.is_staff = True
+    user.is_active = True
+    user.save()
+
+    return HttpResponse(f"Succès ! L'utilisateur '{username}' a été {'créé' if created else 'mis à jour'}. Vous pouvez maintenant supprimer ce code.")
 
 
 @login_required(login_url='dashboard:login')

