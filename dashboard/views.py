@@ -38,9 +38,15 @@ def dashboard_login(request):
             username=form.cleaned_data['username'],
             password=form.cleaned_data['password'],
         )
-        if user and (user.is_staff or user.is_superuser):
-            login(request, user)
-            return redirect(request.GET.get('next', 'dashboard:home'))
+        print(f"Auth attempt: {form.cleaned_data['username']}. Result: {'Success' if user else 'Fail'}")
+        if user:
+            print(f"User check: staff={user.is_staff}, super={user.is_superuser}")
+            if user.is_staff or user.is_superuser:
+                login(request, user)
+                return redirect(request.GET.get('next', 'dashboard:home'))
+            else:
+                print("Access denied: Not staff or superuser.")
+                messages.error(request, '❌ Accès non autorisé (staff requis).')
         else:
             messages.error(request, '❌ Identifiants incorrects ou accès non autorisé.')
 
