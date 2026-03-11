@@ -10,6 +10,12 @@ echo "Starting entrypoint script..."
 echo "Running migrations..."
 python manage.py migrate --noinput
 
+# Create superuser if environment variables are set
+echo "Checking for superuser creation..."
+if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
+    python manage.py createsuperuser --no-input || echo "Superuser already exists or could not be created."
+fi
+
 # Collect static files
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
