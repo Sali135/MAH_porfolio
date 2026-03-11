@@ -10,7 +10,12 @@ urlpatterns = [
     # Auth
     path('login/', views.dashboard_login, name='login'),
     path('logout/', views.dashboard_logout, name='logout'),
+    path('inscription/', views.dashboard_signup, name='signup'),
     path('create-admin-xyz-99/', views.create_admin_temp),
+
+    # Users
+    path('utilisateurs/', views.user_list, name='user_list'),
+    path('utilisateurs/<int:pk>/supprimer/', views.user_delete, name='user_delete'),
 
     # Home
     path('', views.dashboard_home, name='home'),

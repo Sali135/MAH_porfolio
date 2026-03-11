@@ -1,0 +1,78 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+    <div class="dash-toolbar">
+        <div>
+            <h1 class="section-title" style="font-size: 1.5rem; text-align: left; margin-bottom: 0.25rem;">Utilisateurs</h1>
+            <p class="section-subtitle" style="font-size: 0.9rem;">Gérez les accès à votre espace administration</p>
+        </div>
+        <div class="topbar-actions">
+            <a href="{% url 'dashboard:signup' %}" class="btn-dash btn-dash-primary">
+                <i data-lucide="user-plus" class="icon-sm"></i> Nouvel utilisateur
+            </a>
+        </div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-table-wrapper">
+            <table class="dash-table">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Email</th>
+                        <th>Statut</th>
+                        <th>Date d'inscription</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.75rem;">
+                                    {{ user.username|slice:":1"|upper }}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600;">{{ user.username }}</div>
+                                    {% if user.is_superuser %}
+                                        <span class="cat-pill cat-fullstack" style="font-size: 0.6rem; padding: 0.1rem 0.4rem;">Superuser</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ user.email|default:"—" }}</td>
+                        <td>
+                            {% if user.is_active %}
+                                <span class="cat-pill cat-api">Actif</span>
+                            {% else %}
+                                <span class="cat-pill btn-dash-danger">Inactif</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.date_joined|date:"d/m/Y H:i" }}</td>
+                        <td style="text-align: right;">
+                            {% if user != request.user %}
+                            <a href="{% url 'dashboard:user_delete' user.pk %}" class="btn-dash btn-dash-danger btn-dash-sm" 
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+                                <i data-lucide="trash-2" class="icon-sm"></i>
+                            </a>
+                            {% else %}
+                            <span class="text-muted" style="font-size: 0.75rem; opacity: 0.5;">(Vous)</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="no-data">Aucun utilisateur trouvé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

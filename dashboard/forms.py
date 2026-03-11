@@ -2,7 +2,8 @@
 Dashboard forms — Formulaires personnalisés pour l'espace admin.
 """
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User
 from portfolio.models import Skill, Project, AboutStats, TimelineItem
 
 
@@ -26,7 +27,39 @@ class DashboardLoginForm(forms.Form):
             'autocomplete': 'current-password',
         })
     )
+class DashboardSignupForm(UserCreationForm):
+    """Formulaire d'inscription dashboard."""
+    email = forms.EmailField(
+        label='Adresse mail',
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'votre@email.com',
+            'class': 'dash-input',
+            'id': 'signup-email',
+        })
+    )
 
+    class Meta:
+        model = User
+        fields = ("username", "email")
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'placeholder': 'admin',
+                'class': 'dash-input',
+                'id': 'signup-username',
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # S'assurer que les champs mot de passe ont la bonne classe
+        self.fields['password1'].widget.attrs.update({
+            'class': 'dash-input',
+            'placeholder': 'Mot de passe'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'class': 'dash-input',
+            'placeholder': 'Confirmer le mot de passe'
+        })
 
 class DashboardSkillForm(forms.ModelForm):
     """Formulaire compétence."""

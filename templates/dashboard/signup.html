@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion — Administration</title>
+    <title>Inscription — Administration</title>
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
     <!-- Fonts -->
@@ -19,20 +19,27 @@
     <div class="login-card">
         <!-- Tabs -->
         <div class="login-tabs">
-            <div class="login-tab active">Se connecter</div>
-            <a href="{% url 'dashboard:signup' %}" class="login-tab">S'inscrire</a>
+            <a href="{% url 'dashboard:login' %}" class="login-tab">Se connecter</a>
+            <div class="login-tab active">S'inscrire</div>
         </div>
 
         <div class="login-body">
             <div class="login-header">
-                <h1>Bon retour !</h1>
-                <p>Connectez-vous à votre espace administration</p>
+                <h1>Bienvenue !</h1>
+                <p>Créez votre compte administrateur</p>
             </div>
 
-            {% if messages %}
-                {% for message in messages %}
-                   <div class="login-error">{{ message }}</div>
-                {% endfor %}
+            {% if form.errors %}
+                <div class="login-error">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            {{ error }}<br>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                </div>
             {% endif %}
 
             <form method="POST" class="login-form">
@@ -40,37 +47,36 @@
                 
                 <div class="input-group">
                     <div class="input-icon-wrapper">
+                        <i class="lucide-user input-icon"></i>
+                        {{ form.username }}
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-icon-wrapper">
                         <i class="lucide-mail input-icon"></i>
-                        <input type="text" name="username" id="id_username" class="dash-input" placeholder="Nom d'utilisateur" required>
+                        {{ form.email }}
                     </div>
                 </div>
 
                 <div class="input-group">
                     <div class="input-icon-wrapper">
                         <i class="lucide-lock input-icon"></i>
-                        <input type="password" name="password" id="id_password" class="dash-input" placeholder="Mot de passe" required>
-                        <i class="lucide-eye input-icon" style="left: auto; right: 1rem; cursor: pointer; pointer-events: all; opacity: 0.5;"></i>
+                        {{ form.password1 }}
                     </div>
                 </div>
 
-                <div class="form-footer">
-                    <label class="remember-me">
-                        <input type="checkbox" class="dash-checkbox"> Se souvenir de moi
-                    </label>
-                    <a href="#" class="forgot-pass">Mot de passe oublié ?</a>
+                <div class="input-group">
+                    <div class="input-icon-wrapper">
+                        <i class="lucide-shield-check input-icon"></i>
+                        {{ form.password2 }}
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-login">
-                    Se connecter
+                    Créer mon compte
                 </button>
             </form>
-
-            <div class="login-divider">Ou continuer avec</div>
-
-            <button class="btn-google">
-                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" alt="Google" class="google-icon">
-                Continuer avec Google
-            </button>
 
             <a href="{% url 'portfolio:index' %}" class="login-back">
                 <i class="lucide-arrow-left" style="font-size: 0.9em; vertical-align: middle;"></i> Retour au site

@@ -17,7 +17,8 @@ from datetime import timedelta
 from portfolio.models import Skill, Project, ContactMessage, AboutStats, TimelineItem
 from .forms import (
     DashboardSkillForm, DashboardProjectForm,
-    DashboardLoginForm, DashboardAboutForm, DashboardTimelineForm
+    DashboardLoginForm, DashboardSignupForm,
+    DashboardAboutForm, DashboardTimelineForm
 )
 
 
@@ -75,6 +76,48 @@ def dashboard_login(request):
             messages.error(request, '❌ Identifiants incorrects ou accès non autorisé.')
 
     return render(request, 'dashboard/login.html', {'form': form})
+
+
+def dashboard_signup(request):
+    """Page d'inscription dashboard."""
+    if request.user.is_authenticated:
+        return redirect('dashboard:home')
+        
+    form = DashboardSignupForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        user = form.save()
+        user.is_staff = True  # Par défaut, on veut qu'ils accèdent au dashboard
+        user.save()
+        messages.success(request, '✅ Compte créé ! Connectez-vous maintenant.')
+        return redirect('dashboard:login')
+        
+    return render(request, 'dashboard/signup.html', {'form': form})
+
+
+# ── USERS MANAGEMENT ──────────────────────────────────────────
+@login_required(login_url='dashboard:login')
+@user_passes_test(is_staff, login_url='dashboard:login')
+def user_list(request):
+    """Liste des utilisateurs ayant accès au dashboard."""
+    from django.contrib.auth.models import User
+    users = User.objects.all().order_by('-date_joined')
+    return render(request, 'dashboard/users/list.html', {'users': users})
+
+
+@login_required(login_url='dashboard:login')
+@user_passes_test(is_staff, login_url='dashboard:login')
+def user_delete(request, pk):
+    """Supprimer un utilisateur."""
+    from django.contrib.auth.models import User
+    user_to_del = get_object_or_404(User, pk=pk)
+    
+    if user_to_del == request.user:
+        messages.error(request, "❌ Vous ne pouvez pas vous supprimer vous-même.")
+    else:
+        user_to_del.delete()
+        messages.success(request, f"✅ Utilisateur '{user_to_del.username}' supprimé.")
+        
+    return redirect('dashboard:user_list')
 
 
 # ── HOME / STATS ──────────────────────────────────────────────

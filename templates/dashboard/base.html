@@ -65,6 +65,14 @@
       </div>
 
       <div class="nav-group">
+        <span class="nav-group-label">Paramètres</span>
+        <a href="{% url 'dashboard:user_list' %}" class="nav-item {% block nav_users %}{% endblock %}">
+          <i data-lucide="users" class="nav-icon-svg"></i>
+          <span class="nav-label">Utilisateurs</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
         <span class="nav-group-label">Liens rapides</span>
         <a href="/" target="_blank" class="nav-item">
           <i data-lucide="globe" class="nav-icon-svg"></i>
