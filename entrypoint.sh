@@ -18,20 +18,18 @@ fi
 
 # Create or update superuser if environment variables are set
 echo "Checking for superuser creation/update..."
-if [ "$DJANGO_SUPERUSER_USERNAME" ]; then
-    echo "Configuring user: $DJANGO_SUPERUSER_USERNAME"
-    python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); \
-    username = '$DJANGO_SUPERUSER_USERNAME'; \
-    email = '$DJANGO_SUPERUSER_EMAIL'; \
-    password = '$DJANGO_SUPERUSER_PASSWORD'; \
-    print(f'Attempting to sync user: {username}'); \
-    user, created = User.objects.get_or_create(username=username, defaults={'email': email}); \
+python manage.py shell -c "import os; from django.contrib.auth import get_user_model; User = get_user_model(); \
+username = os.environ.get('DJANGO_SUPERUSER_USERNAME'); \
+email = os.environ.get('DJANGO_SUPERUSER_EMAIL', 'admin@example.com'); \
+password = os.environ.get('DJANGO_SUPERUSER_PASSWORD'); \
+if not username or not password: \
+    print('Superuser variables not set, skipping sync.'); \
+else: \
+    print(f'Syncing user: {username}'); \
+    user, created = User.objects.update_or_create(username=username, defaults={'email': email, 'is_superuser': True, 'is_staff': True}); \
     user.set_password(password); \
-    user.is_superuser = True; \
-    user.is_staff = True; \
     user.save(); \
-    print(f'Sync complete. Created: {created}. Superuser: {user.is_superuser}. Staff: {user.is_staff}')"
-fi
+    print(f'Sync complete. Created: {created}. Status: Active.')"
 
 # Collect static files
 echo "Collecting static files..."
