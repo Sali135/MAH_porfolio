@@ -20,7 +20,7 @@ fi
 echo "Checking for superuser creation/update..."
 python manage.py shell <<EOF
 import os
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 
 User = get_user_model()
 username = os.environ.get('DJANGO_SUPERUSER_USERNAME')
@@ -33,11 +33,23 @@ else:
     print(f'Syncing user: {username}')
     user, created = User.objects.update_or_create(
         username=username, 
-        defaults={'email': email, 'is_superuser': True, 'is_staff': True}
+        defaults={
+            'email': email, 
+            'is_superuser': True, 
+            'is_staff': True,
+            'is_active': True
+        }
     )
     user.set_password(password)
     user.save()
     print(f'Sync complete. Created: {created}. Status: Active.')
+    
+    # Self-test
+    test_user = authenticate(username=username, password=password)
+    if test_user:
+        print(f'Self-test success: User {username} is authenticated.')
+    else:
+        print(f'Self-test FAILURE: User {username} could not be authenticated after sync.')
 EOF
 
 # Collect static files
