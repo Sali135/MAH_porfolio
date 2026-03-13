@@ -8,6 +8,7 @@
 
 // ── DOM Ready ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  initPreloader();
   initTheme();
   initNavbar();
   initMobileMenu();
@@ -22,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
   autoCloseToasts();
   initMagneticLinks();
   initLenis();
-  initPreloader();
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
@@ -34,17 +34,24 @@ function initPreloader() {
   const preloader = document.getElementById('preloader');
   if (!preloader) return;
 
-  // Wait for a small delay to ensure initial paint is smooth
-  window.addEventListener('load', () => {
-    setTimeout(() => {
+  const hidePreloader = () => {
+    if (!preloader.classList.contains('preloader-hidden')) {
       preloader.classList.add('preloader-hidden');
-    }, 400);
-  });
+      setTimeout(() => {
+        preloader.style.display = 'none';
+      }, 600);
+    }
+  };
 
-  // Fallback: hide if loading takes too long
-  setTimeout(() => {
-    preloader?.classList.add('preloader-hidden');
-  }, 3000);
+  // If already loaded
+  if (document.readyState === 'complete') {
+    hidePreloader();
+  } else {
+    window.addEventListener('load', hidePreloader);
+  }
+
+  // Global fallback (Render can be slow, but 2s is enough for first paint)
+  setTimeout(hidePreloader, 2000);
 }
 
 
