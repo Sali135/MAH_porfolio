@@ -30,9 +30,31 @@
             </div>
 
             {% if messages %}
-                {% for message in messages %}
-                   <div class="login-error">{{ message }}</div>
+            <div class="dash-toasts" role="alert" aria-live="polite">
+                {% for msg in messages %}
+                <div class="premium-toast toast-{{ msg.tags }}">
+                    <div class="toast-icon">
+                        {% if msg.tags == 'success' %}<i data-lucide="check-circle"></i>
+                        {% elif msg.tags == 'error' %}<i data-lucide="x-circle"></i>
+                        {% elif msg.tags == 'warning' %}<i data-lucide="alert-triangle"></i>
+                        {% else %}<i data-lucide="info"></i>{% endif %}
+                    </div>
+                    <div class="toast-content">
+                        <span class="toast-title">
+                            {% if msg.tags == 'success' %}Succès
+                            {% elif msg.tags == 'error' %}Erreur
+                            {% elif msg.tags == 'warning' %}Attention
+                            {% else %}Info{% endif %}
+                        </span>
+                        <p class="toast-message-text">{{ msg }}</p>
+                    </div>
+                    <button onclick="closePremiumToast(this)" class="toast-close-btn" aria-label="Fermer">
+                        <i data-lucide="x"></i>
+                    </button>
+                    <div class="toast-progress"></div>
+                </div>
                 {% endfor %}
+            </div>
             {% endif %}
 
             <form method="POST" class="login-form">
@@ -78,8 +100,9 @@
         </div>
     </div>
 
-    <!-- Lucide Icons -->
+    <!-- Scripts -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
     <script>
         lucide.createIcons();
     </script>
