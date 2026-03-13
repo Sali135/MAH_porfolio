@@ -4,39 +4,39 @@
 
 /* ── DESIGN TOKENS ─────────────────────────────────────────── */
 :root {
-  --dash-bg: #0a0f1e;
-  --dash-sidebar: #0d1426;
-  --dash-card: #111827;
-  --dash-card-border: rgba(255,255,255,0.07);
-  --dash-card-hover: #1a2235;
-  --dash-topbar: rgba(10, 15, 30, 0.9);
+  --dash-bg: #020617;
+  --dash-sidebar: #0a0f1e;
+  --dash-card: rgba(30, 41, 59, 0.4);
+  --dash-card-border: rgba(99, 102, 241, 0.1);
+  --dash-card-hover: rgba(51, 65, 85, 0.5);
+  --dash-topbar: rgba(2, 6, 23, 0.8);
   --dash-text: #f1f5f9;
   --dash-text-muted: #94a3b8;
   --dash-text-secondary: #64748b;
-  --dash-accent: #3b82f6;
-  --dash-accent-hover: #2563eb;
-  --dash-accent-glow: rgba(59,130,246,0.25);
+  --dash-accent: #6366f1;
+  --dash-accent-hover: #4f46e5;
+  --dash-accent-glow: rgba(99, 102, 241, 0.2);
   --dash-danger: #ef4444;
-  --dash-success: #22c55e;
+  --dash-success: #10b981;
   --dash-warning: #f59e0b;
   --dash-sidebar-width: 250px;
   --dash-topbar-height: 60px;
-  --dash-transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+  --dash-transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --dash-radius: 12px;
-  --dash-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --dash-shadow: 0 4px 24px rgba(0,0,0,0.6);
 }
 
 [data-theme="light"] {
-  --dash-bg: #f1f5f9;
-  --dash-sidebar: #1e293b;
+  --dash-bg: #f8fafc;
+  --dash-sidebar: #0f172a;
   --dash-card: #ffffff;
-  --dash-card-border: rgba(0,0,0,0.06);
-  --dash-card-hover: #f8fafc;
-  --dash-topbar: rgba(241, 245, 249, 0.95);
+  --dash-card-border: rgba(99, 102, 241, 0.1);
+  --dash-card-hover: #f1f5f9;
+  --dash-topbar: rgba(248, 250, 252, 0.95);
   --dash-text: #0f172a;
   --dash-text-muted: #475569;
   --dash-text-secondary: #94a3b8;
-  --dash-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --dash-shadow: 0 4px 24px rgba(99, 102, 241, 0.08);
 }
 
 /* ── RESET ──────────────────────────────────────────────────── */
