@@ -4,12 +4,12 @@
 
 /* ── DESIGN TOKENS ─────────────────────────────────────────── */
 :root {
-  --dash-bg: #020617;
-  --dash-sidebar: #0a0f1e;
-  --dash-card: rgba(30, 41, 59, 0.4);
-  --dash-card-border: rgba(99, 102, 241, 0.1);
-  --dash-card-hover: rgba(51, 65, 85, 0.5);
-  --dash-topbar: rgba(2, 6, 23, 0.8);
+  --dash-bg: #000000;
+  --dash-sidebar: #050505;
+  --dash-card: rgba(255, 255, 255, 0.03);
+  --dash-card-border: rgba(255, 255, 255, 0.08);
+  --dash-card-hover: rgba(255, 255, 255, 0.06);
+  --dash-topbar: rgba(0, 0, 0, 0.85);
   --dash-text: #f1f5f9;
   --dash-text-muted: #94a3b8;
   --dash-text-secondary: #64748b;
@@ -23,7 +23,7 @@
   --dash-topbar-height: 60px;
   --dash-transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --dash-radius: 12px;
-  --dash-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  --dash-shadow: 0 4px 24px rgba(0,0,0,0.8);
 }
 
 [data-theme="light"] {

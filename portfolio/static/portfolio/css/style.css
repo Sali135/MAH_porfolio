@@ -4,21 +4,21 @@
 
 /* ── DESIGN TOKENS ─────────────────────────────────────────── */
 :root {
-  /* Ultra-Premium Dark theme (default) */
-  --bg-primary: #020617; /* Deeper Indigo Black */
-  --bg-secondary: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.4);
-  --bg-card-hover: rgba(51, 65, 85, 0.6);
-  --border-color: rgba(99, 102, 241, 0.15);
+  /* Absolute Premium Dark theme */
+  --bg-primary: #000000; /* Pure Black */
+  --bg-secondary: #000000;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --border-color: rgba(255, 255, 255, 0.08);
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
-  --accent: #6366f1; /* Premium Indigo */
+  --accent: #6366f1;
   --accent-hover: #4f46e5;
   --accent-glow: rgba(99, 102, 241, 0.25);
-  --gradient-hero: radial-gradient(circle at top right, #0a0f1e 0%, #020617 100%);
+  --gradient-hero: radial-gradient(circle at top right, #050505 0%, #000000 100%);
   --gradient-text-name: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #6366f1 100%);
-  --nav-bg: rgba(2, 6, 23, 0.8);
+  --nav-bg: rgba(0, 0, 0, 0.85);
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.8);
   --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1073,7 +1073,7 @@ body.has-custom-cursor button {
 
 /* ── ABOUT SECTION ──────────────────────────────────────────── */
 .about-section {
-  background: var(--bg-secondary);
+  position: relative;
 }
 
 .about-grid {
@@ -1225,7 +1225,7 @@ body.has-custom-cursor button {
 
 /* ── SKILLS SECTION ─────────────────────────────────────────── */
 .skills-section {
-  background: var(--bg-primary);
+  position: relative;
 }
 
 .skills-filters,
@@ -1390,7 +1390,7 @@ body.has-custom-cursor button {
 
 /* ── PROJECTS SECTION ───────────────────────────────────────── */
 .projects-section {
-  background: var(--bg-secondary);
+  position: relative;
 }
 
 .projects-grid {
@@ -1513,7 +1513,7 @@ body.has-custom-cursor button {
 
 /* ── CONTACT SECTION ────────────────────────────────────────── */
 .contact-section {
-  background: var(--bg-primary);
+  position: relative;
 }
 
 .contact-grid {
