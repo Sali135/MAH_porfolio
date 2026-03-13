@@ -29,9 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',
     'django.contrib.sitemaps',
     # Third-party
     'rest_framework',
@@ -41,6 +39,25 @@ INSTALLED_APPS = [
     'portfolio',
     'dashboard',
 ]
+
+# Cloudinary Configuration & Guard
+CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
+# Ensure it starts with the correct scheme and doesn't contain placeholders
+IF_CLOUDINARY = CLOUDINARY_URL.startswith('cloudinary://') and '<' not in CLOUDINARY_URL
+
+if IF_CLOUDINARY:
+    # Must be before staticfiles for some features, but we mainly need it for Media
+    INSTALLED_APPS.insert(INSTALLED_APPS.index('django.contrib.staticfiles'), 'cloudinary_storage')
+    INSTALLED_APPS.append('cloudinary')
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    CLOUDINARY_STORAGE = {
+        'CLOUDINARY_URL': CLOUDINARY_URL
+    }
+else:
+    # Fallback to local storage (Default Django)
+    # Also pop it from environ so the library doesn't try to parse an invalid string during import
+    import os
+    os.environ.pop('CLOUDINARY_URL', None)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,13 +124,13 @@ STATICFILES_DIRS = []
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (uploads)
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': config('CLOUDINARY_URL', default='')
-}
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+if not IF_CLOUDINARY:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    # Cloudinary handles its own URLs, but we keep these for compatibility
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
