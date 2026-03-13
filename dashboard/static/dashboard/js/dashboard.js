@@ -240,26 +240,46 @@ function showToast(msg, type = 'success') {
     container.className = 'dash-toasts';
     document.body.appendChild(container);
   }
+  
   const toast = document.createElement('div');
-  toast.className = `dash-toast dash-toast-${type}`;
-  toast.innerHTML = `${msg} <button class="toast-close" onclick="this.parentElement.remove()">×</button>`;
+  toast.className = `premium-toast toast-${type}`;
+  
+  const icon = type === 'success' ? 'check-circle' : (type === 'error' ? 'x-circle' : (type === 'warning' ? 'alert-triangle' : 'info'));
+  const title = type === 'success' ? 'Succès' : (type === 'error' ? 'Erreur' : (type === 'warning' ? 'Attention' : 'Info'));
+  
+  toast.innerHTML = `
+    <div class="toast-icon"><i data-lucide="${icon}"></i></div>
+    <div class="toast-content">
+      <span class="toast-title">${title}</span>
+      <p class="toast-message-text">${msg}</p>
+    </div>
+    <button class="toast-close-btn" onclick="closePremiumToastEl(this.closest('.premium-toast'))" aria-label="Fermer">
+      <i data-lucide="x"></i>
+    </button>
+    <div class="toast-progress"></div>
+  `;
+  
   container.appendChild(toast);
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(100%)';
-    toast.style.transition = 'all 0.4s ease';
-    setTimeout(() => toast.remove(), 400);
-  }, 3500);
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+  
+  setTimeout(() => closePremiumToastEl(toast), 5000);
 }
 
 // ── AUTO-CLOSE SERVER TOASTS ──────────────────────────────────
 function autoCloseToasts() {
-  document.querySelectorAll('.dash-toast').forEach(toast => {
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(100%)';
-      toast.style.transition = 'all 0.4s ease';
-      setTimeout(() => toast.remove(), 400);
-    }, 5000);
+  document.querySelectorAll('.premium-toast').forEach(toast => {
+    setTimeout(() => closePremiumToastEl(toast), 5000);
   });
 }
+
+function closePremiumToastEl(toast) {
+  if (!toast || toast.classList.contains('closing')) return;
+  toast.classList.add('closing');
+  toast.addEventListener('animationend', () => toast.remove(), { once: true });
+}
+
+// Global exposure
+window.closePremiumToast = function(el) {
+  const toast = el.classList.contains('premium-toast') ? el : el.closest('.premium-toast');
+  if (toast) closePremiumToastEl(toast);
+};

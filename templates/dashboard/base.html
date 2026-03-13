@@ -124,11 +124,31 @@
     {% if messages %}
     <div class="dash-toasts" role="alert" aria-live="polite">
       {% for msg in messages %}
-      <div class="dash-toast dash-toast-{{ msg.tags }}">
-        {{ msg }}
-        <button onclick="this.parentElement.remove()" class="toast-close">
+      <div class="premium-toast toast-{{ msg.tags }}">
+        <div class="toast-icon">
+          {% if msg.tags == 'success' %}
+          <i data-lucide="check-circle" class="icon-sm"></i>
+          {% elif msg.tags == 'error' %}
+          <i data-lucide="x-circle" class="icon-sm"></i>
+          {% elif msg.tags == 'warning' %}
+          <i data-lucide="alert-triangle" class="icon-sm"></i>
+          {% else %}
+          <i data-lucide="info" class="icon-sm"></i>
+          {% endif %}
+        </div>
+        <div class="toast-content">
+          <span class="toast-title">
+            {% if msg.tags == 'success' %}Succès
+            {% elif msg.tags == 'error' %}Erreur
+            {% elif msg.tags == 'warning' %}Attention
+            {% else %}Info{% endif %}
+          </span>
+          <p class="toast-message-text">{{ msg }}</p>
+        </div>
+        <button onclick="closePremiumToast(this)" class="toast-close-btn" aria-label="Fermer">
           <i data-lucide="x" class="icon-sm"></i>
         </button>
+        <div class="toast-progress"></div>
       </div>
       {% endfor %}
     </div>
