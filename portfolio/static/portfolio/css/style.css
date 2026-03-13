@@ -113,7 +113,7 @@ body.has-custom-cursor button {
   left: 0;
   width: 30px;
   height: 30px;
-  border: 1px solid rgba(59, 130, 246, 0.5);
+  border: 1px solid var(--accent-glow);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
@@ -124,14 +124,14 @@ body.has-custom-cursor button {
 .custom-cursor.hover {
   width: 40px;
   height: 40px;
-  background: rgba(59, 130, 246, 0.1);
+  background: var(--accent-glow);
   mix-blend-mode: difference;
 }
 
 .custom-cursor-follower.hover {
   width: 60px;
   height: 60px;
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(99, 102, 241, 0.15);
   border-color: transparent;
 }
 
@@ -1145,7 +1145,7 @@ body.has-custom-cursor button {
   font-size: 3rem;
   font-weight: 900;
   letter-spacing: -0.04em;
-  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1224,6 +1224,10 @@ body.has-custom-cursor button {
 }
 
 /* ── SKILLS SECTION ─────────────────────────────────────────── */
+.skills-section {
+  background: var(--bg-primary);
+}
+
 .skills-filters,
 .projects-filters {
   display: flex;
@@ -1355,13 +1359,13 @@ body.has-custom-cursor button {
   letter-spacing: 0.05em;
   padding: 0.2rem 0.6rem;
   border-radius: 2rem;
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(99, 102, 241, 0.1);
   color: var(--accent);
 }
 
 .cat-backend {
-  background: rgba(59, 130, 246, 0.1);
-  color: #60a5fa;
+  background: rgba(99, 102, 241, 0.1);
+  color: #a5b4fc;
 }
 
 .cat-frontend {
@@ -1458,9 +1462,10 @@ body.has-custom-cursor button {
 
 .category-badge {
   right: 0.75rem;
-  background: rgba(15, 23, 42, 0.8);
+  background: var(--bg-secondary);
   color: var(--text-secondary);
   backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
 }
 
 .project-body {
@@ -1507,6 +1512,10 @@ body.has-custom-cursor button {
 }
 
 /* ── CONTACT SECTION ────────────────────────────────────────── */
+.contact-section {
+  background: var(--bg-primary);
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
