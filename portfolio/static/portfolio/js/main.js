@@ -22,11 +22,30 @@ document.addEventListener('DOMContentLoaded', () => {
   autoCloseToasts();
   initMagneticLinks();
   initLenis();
-  initCustomCursor();
+  initPreloader();
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
 });
+
+
+// ── 0. PRELOADER ──────────────────────────────────────────────
+function initPreloader() {
+  const preloader = document.getElementById('preloader');
+  if (!preloader) return;
+
+  // Wait for a small delay to ensure initial paint is smooth
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      preloader.classList.add('preloader-hidden');
+    }, 400);
+  });
+
+  // Fallback: hide if loading takes too long
+  setTimeout(() => {
+    preloader?.classList.add('preloader-hidden');
+  }, 3000);
+}
 
 
 // ── 1. DARK / LIGHT MODE ──────────────────────────────────────

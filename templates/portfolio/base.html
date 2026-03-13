@@ -45,16 +45,28 @@
 
   <title>{% block title %}Mahamadou Salissou — Dev Python/Django{% endblock %}</title>
 
-  <!-- Google Fonts : Inter -->
+  <!-- Performance Optimizations -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+  <!-- Google Fonts : Inter -->
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
 
   <!-- Devicons (tech stack icons) & Lucide (UI icons) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+
+  <!-- Early Theme Init (Prevents FOUC) -->
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}?v=2.1" />
@@ -63,6 +75,14 @@
 </head>
 
 <body>
+  <!-- ===== PRELOADER ===== -->
+  <div id="preloader">
+    <div class="preloader-content">
+      <div class="preloader-spinner"></div>
+      <p>Chargement...</p>
+    </div>
+  </div>
+
   <!-- ===== CUSTOM CURSOR ===== -->
   <div class="custom-cursor"></div>
   <div class="custom-cursor-follower"></div>
@@ -247,10 +267,10 @@
   </div>
 
   <!-- ===== LENIS SMOOTH SCROLL ===== -->
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js" defer></script>
 
   <!-- ===== JAVASCRIPT ===== -->
-  <script src="{% static 'portfolio/js/main.js' %}"></script>
+  <script src="{% static 'portfolio/js/main.js' %}" defer></script>
   {% block extra_scripts %}{% endblock %}
 </body>
 
