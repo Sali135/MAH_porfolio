@@ -13,22 +13,22 @@
 
   <link rel="icon" type="image/svg+xml" href="{% static 'portfolio/images/favicon.svg' %}" />
   <link rel="shortcut icon" href="{% static 'portfolio/images/favicon.svg' %}" />
-  <link rel="canonical" href="https://votre-portfolio.com{{ request.path }}" />
+  <link rel="canonical" href="https://{{ request.get_host }}{{ request.path }}" />
 
   <!-- Open Graph / LinkedIn / Facebook -->
-  <meta property="og:title" content="Mahamadou Salissou — Développeur Python/Django" />
+  <meta property="og:title" content="Mahamadou Salissou — Développeur Python/Django & Fullstack" />
   <meta property="og:description"
-    content="Développeur Backend et Fullstack Python/Django à Yaoundé. Création d'APIs robustes et plateformes web modernes." />
+    content="Mahamadou Salissou, développeur Backend et Fullstack Python/Django à Yaoundé. Expert en APIs robustes et architectures modernes." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://votre-portfolio.com{{ request.path }}" />
-  <meta property="og:image" content="https://votre-portfolio.com{% static 'portfolio/images/og-image.jpg' %}" />
+  <meta property="og:url" content="https://{{ request.get_host }}{{ request.path }}" />
+  <meta property="og:image" content="https://{{ request.get_host }}{% static 'portfolio/images/og-image.jpg' %}" />
   <meta property="og:site_name" content="Mahamadou Salissou Portfolio" />
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Mahamadou Salissou — Développeur Python/Django" />
   <meta name="twitter:description" content="Développeur Backend et Fullstack Python/Django à Yaoundé." />
-  <meta name="twitter:image" content="https://votre-portfolio.com{% static 'portfolio/images/og-image.jpg' %}" />
+  <meta name="twitter:image" content="https://{{ request.get_host }}{% static 'portfolio/images/og-image.jpg' %}" />
 
   <!-- Schema.org Person -->
   <script type="application/ld+json">
@@ -36,14 +36,26 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Mahamadou Salissou",
-    "jobTitle": "Développeur Python/Django",
-    "address": {"@type": "PostalAddress", "addressLocality": "Yaoundé", "addressCountry": "CM"},
+    "alternateName": "MH-CODE",
+    "jobTitle": "Développeur Python/Django Senior",
+    "description": "Développeur Backend et Fullstack expert en Python, Django, Docker et API REST, basé à Yaoundé.",
+    "url": "https://{{ request.get_host }}",
+    "image": "https://{{ request.get_host }}{% static 'portfolio/images/profile.jpg' %}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Yaoundé",
+      "addressRegion": "Centre",
+      "addressCountry": "CM"
+    },
     "email": "moihedabdoul@gmail.com",
-    "url": "https://MH dev-portfolio.com"
+    "sameAs": [
+      "https://github.com/Sali135",
+      "https://linkedin.com/in/mahamadou-salissou"
+    ]
   }
   </script>
 
-  <title>{% block title %}Mahamadou Salissou — Dev Python/Django{% endblock %}</title>
+  <title>{% block title %}Mahamadou Salissou | Développeur Python/Django & Fullstack{% endblock %}</title>
 
   <!-- Performance Optimizations -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

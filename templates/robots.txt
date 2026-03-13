@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /admin/
 Disallow: /dashboard/
 
-Sitemap: https://votredomaine.com/sitemap.xml
+Sitemap: https://{{ request.get_host }}/sitemap.xml
